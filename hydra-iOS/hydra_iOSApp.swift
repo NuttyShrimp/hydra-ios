@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct hydra_iOSApp: App {
+    @StateObject var nav = Navigation()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView(navigationModel: nav)
         }
     }
 }
