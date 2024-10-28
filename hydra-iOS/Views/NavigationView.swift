@@ -11,58 +11,44 @@ struct NavigationView: View {
 
     var body: some View {
         NavigationStack {
-            VStack {
-                TabView(selection: $navigationModel.currentTab) {
-                    NewsView().tag(0)
-                    RestoView().tag(1)
-                    SettingsView().tag(2)
+            ZStack(alignment: .bottom) {
+                VStack {
+                    TabView(selection: $navigationModel.currentTab) {
+                        NewsView(news: NewsViewModel())
+                            .tag(0)
+                            .padding([.bottom], 10)
+                        RestoView().tag(1)
+                        SettingsView().tag(2)
+                    }
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    .background(Color(.systemGray6))
                 }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                
-                HStack {
-                    Button(action: {
-                        navigationModel.selectTab(0)
-                    }) {
-                        VStack {
-                            Image(systemName: "newspaper.fill")
-                            if navigationModel.currentTab == 0 {
-                                Text("News")
-                            }
+                .safeAreaInset(edge: .bottom) {
+                    Navbar(navigationModel: navigationModel)
+                        .ignoresSafeArea()
+                        .frame(maxWidth: .infinity)
+                        .padding(-20)
+                        .background {
+                            Color(.systemGray6)
+                                .background(.ultraThinMaterial)
+                                .mask(alignment: .top) {
+                                    VStack(spacing: 0) {
+                                        LinearGradient(
+                                            stops: [
+                                                Gradient.Stop(color: .clear, location: .zero),
+                                                Gradient.Stop(color: .black, location: 1.0)
+                                            ],
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                        .frame(height: 20)
+                                        Color(.systemGray6)
+                                    }
+                                }
+                                .padding(.top, -45)
+                                .ignoresSafeArea()
                         }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .foregroundStyle(navigationModel.currentTab == 0 ? Color.accentColor : .gray)
-
-                    Button(action: {
-                        navigationModel.selectTab(1)
-                    }) {
-                        VStack {
-                            Image(systemName: "fork.knife")
-                            if navigationModel.currentTab == 1 {
-                                Text("Resto")
-                            }
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .foregroundStyle(navigationModel.currentTab == 1 ? Color.accentColor : .gray)
-
-                    Button(action: {
-                        navigationModel.selectTab(2)
-                    }) {
-                        VStack {
-                            Image(systemName: "gear")
-                            if navigationModel.currentTab == 2 {
-                                Text("Settings")
-                            }
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .foregroundStyle(navigationModel.currentTab == 2 ? Color.accentColor : .gray)
                 }
-                .padding()
-                .frame(width: 300.0, height: 60.0, alignment: .center)
-                .background(Color(.systemGray6))
-                .mask(RoundedRectangle(cornerRadius: 16))
             }
         }
     }

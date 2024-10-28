@@ -8,13 +8,23 @@
 import SwiftUI
 
 struct NewsView: View {
+    @ObservedObject var news: NewsViewModel;
+    
     var body: some View {
-        HStack {
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            ForEach(news.events) { event in
+                NewsEntryView(event)
+            }
+            // This spacer is so we don't have entry stuck
+            Spacer(minLength: 30)
+        }
+        .padding([.horizontal], 10)
+        .onAppear {
+            news.loadEvents()
         }
     }
 }
 
 #Preview {
-    NewsView()
+    NewsView(news: NewsViewModel())
 }
