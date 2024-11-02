@@ -14,7 +14,8 @@ struct NavigationView: View {
             ZStack(alignment: .bottom) {
                 VStack {
                     TabView(selection: $navigationModel.currentTab) {
-                        NewsView(news: NewsViewModel())
+                        // TODO: dsa should be stored somewhere because this data is has a lesser change at getting stale between tab changes then the news entries
+                        NewsView(news: NewsViewModel(), dsa: DSA())
                             .tag(0)
                             .padding([.bottom], 10)
                         RestoView().tag(1)

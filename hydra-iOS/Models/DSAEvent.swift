@@ -7,20 +7,30 @@
 
 import Foundation
 
-struct DSAEvent : Decodable, Identifiable, IntoNewsEvent {
-    public let id: Int;
+struct DSAEvent: Decodable, Identifiable, Eventable {
+    // This is normally a int in the API but we want to use a string so we can distinguish it better with our other news events
+    var id: String = "";
+    public let entryId: Int;
     public let title: String;
     public let description: String?;
     public let association: String;
     public let address: String?;
     public let infolink: String?;
     public let location: String?;
-    public let start_time: Date;
-    public let end_time: Date?;
+    public let startTime: Date;
+    public let endTime: Date?;
     
-    func intoNewsEvent() -> NewsEvent {
-        return NewsEvent(id: "DSA-\(self.id)", title: self.title, description: self.description, image: nil, creationDate: start_time, finishDate: end_time, url: infolink != nil ? URL(string: infolink!) : nil)
+    mutating func updateId(_ id: String) {
+        self.id = id
     }
+    
+    var eventDate: Date {
+        startTime
+    }
+    
+    private enum CodingKeys : String, CodingKey {
+            case title, description, association, address, infolink, location, startTime, endTime, entryId = "id"
+        }
 }
 
 struct DSAResponse: Decodable {

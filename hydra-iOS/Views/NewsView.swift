@@ -8,14 +8,26 @@
 import SwiftUI
 
 struct NewsView: View {
-    @ObservedObject var news: NewsViewModel;
-    
+    @ObservedObject var news: NewsViewModel
+    @ObservedObject var dsa: DSA
+
     var body: some View {
         ScrollView {
-            ForEach(news.events) { event in
-                NewsEntryView(event)
+            ForEach(news.events, id: \.id) { event in
+                ZStack {
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color(.systemBackground))
+                    if event is DSAEvent {
+                        let dsaEvent = (event as? DSAEvent)!
+                        DSAActivityView(
+                            dsaEvent, dsa.getForName(dsaEvent.association))
+                    }
+                    if event is UgentNewsEntry {
+                        UgentNewsView((event as? UgentNewsEntry)!)
+                    }
+                }
             }
-            // This spacer is so we don't have entry stuck
+            // This spacer is so we don't have entry stuck at behind the navbar
             Spacer(minLength: 30)
         }
         .padding([.horizontal], 10)
@@ -26,5 +38,5 @@ struct NewsView: View {
 }
 
 #Preview {
-    NewsView(news: NewsViewModel())
+    NewsView(news: NewsViewModel(), dsa: DSA())
 }
