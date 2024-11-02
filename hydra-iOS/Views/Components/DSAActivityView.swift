@@ -32,9 +32,10 @@ struct DSAActivityView: View {
                 Spacer()
                 if association.logo != nil {
                     AsyncImage(url: association.logo) { image in
-                        image.resizable()
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                             .frame(maxWidth: 75, maxHeight: 75)
-                            .aspectRatio(1, contentMode: .fill)
                     } placeholder: {
                         ProgressView()
                             .frame(width: 50, height: 50)
