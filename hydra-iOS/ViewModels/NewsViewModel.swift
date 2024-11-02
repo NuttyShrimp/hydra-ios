@@ -8,16 +8,28 @@
 import Alamofire
 import Foundation
 
+private var DAY: TimeInterval = 24 * 60 * 60
+
 class NewsViewModel: ObservableObject {
     // NOTE: Should this be moved to a model?
     @Published private(set) var DSAEvents: [DSAEvent] = []
     @Published private var UGentNews: [UgentNewsEntry] = []
-
+    
     var events: [any Eventable] {
         // TODO: push events to the front if they happen in the future but in less than 24h
         return ((DSAEvents as [any Eventable]) + (UGentNews as [any Eventable]))
             .sorted {
-                $0.eventDate < $1.eventDate
+                // if one of the dates is between now and now + 24h, push to front otherwise compare
+                let isEvent0Soon = isEventSoon($0)
+                let isEvent1Soon = isEventSoon($1)
+                if isEvent0Soon && !isEvent1Soon {
+                    return true
+                }
+                if !isEvent0Soon && isEvent1Soon {
+                    return false
+                }
+                // true = $0 is before $1
+                return $0.eventDate < $1.eventDate
             }
 
     }
@@ -59,5 +71,9 @@ class NewsViewModel: ObservableObject {
                 print("Failed to fetch Ugent news: \(error)")
             }
         }
+    }
+    
+    private func isEventSoon(_ event: any Eventable) -> Bool {
+        return Date.now.addingTimeInterval(DAY * -1) < event.eventDate && event.eventDate < Date.now.addingTimeInterval(DAY)
     }
 }
