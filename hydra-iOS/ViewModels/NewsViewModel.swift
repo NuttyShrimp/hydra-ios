@@ -17,21 +17,10 @@ class NewsViewModel: ObservableObject {
     
     var events: [any Eventable] {
         // TODO: push events to the front if they happen in the future but in less than 24h
-        return ((DSAEvents as [any Eventable]) + (UGentNews as [any Eventable]))
+                return ((DSAEvents as [any Eventable]) + (UGentNews as [any Eventable]))
             .sorted {
-                // if one of the dates is between now and now + 24h, push to front otherwise compare
-                let isEvent0Soon = isEventSoon($0)
-                let isEvent1Soon = isEventSoon($1)
-                if isEvent0Soon && !isEvent1Soon {
-                    return true
-                }
-                if !isEvent0Soon && isEvent1Soon {
-                    return false
-                }
-                // true = $0 is before $1
-                return $0.eventDate < $1.eventDate
+                $0.priority() < $1.priority()
             }
-
     }
 
     func loadEvents() {

@@ -10,4 +10,7 @@ import Foundation
 protocol Eventable: Identifiable {
     var id: String { get }
     var eventDate: Date { get }
+    var type: EventType { get }
+    
+    func priority() -> Int
 }

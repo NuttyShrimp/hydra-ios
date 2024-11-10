@@ -14,4 +14,9 @@ struct Constants {
     public static var ZEUS_V2 = "https://hydra.ugent.be/api/2.0";
     
     public static var LIBRARY = "https://widgets.lib.ugent.be";
+    
+    struct Priority {
+        static var FEED_SPECIAL_OFFSET = 10;
+        static var FEED_MAX_PRIORITY = 1000;
+    }
 }

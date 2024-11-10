@@ -25,7 +25,7 @@ struct UgentNewsView: View {
                 Spacer()
             }
             .modifier(
-                Eventify(eventType: .UGent, startDate: event.published)
+                Eventify(event: event, startDate: event.published)
             )
             .padding()
         }

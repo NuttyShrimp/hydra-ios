@@ -14,9 +14,22 @@
 		F84E400D2CB3F05D00202EF8 /* hydra-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hydra-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F80F9E232CE0DAFA00BD85FA /* Exceptions for "hydra-iOS" folder in "hydra-iOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F84E400C2CB3F05D00202EF8 /* hydra-iOS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F84E400F2CB3F05D00202EF8 /* hydra-iOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F80F9E232CE0DAFA00BD85FA /* Exceptions for "hydra-iOS" folder in "hydra-iOS" target */,
+			);
 			path = "hydra-iOS";
 			sourceTree = "<group>";
 		};
@@ -263,11 +276,15 @@
 				DEVELOPMENT_ASSET_PATHS = "\"hydra-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = D38FNBFRY3;
 				ENABLE_PREVIEWS = YES;
+				EVENT_FEED_SHOW_PRIORITY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "hydra-iOS/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Hydra;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16;
@@ -294,11 +311,15 @@
 				DEVELOPMENT_ASSET_PATHS = "\"hydra-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = D38FNBFRY3;
 				ENABLE_PREVIEWS = YES;
+				EVENT_FEED_SHOW_PRIORITY = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "hydra-iOS/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Hydra;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 16;

@@ -44,7 +44,7 @@ struct DSAActivityView: View {
             }
             .modifier(
                 Eventify(
-                    eventType: .DSA, startDate: event.startTime,
+                    event: event, startDate: event.startTime,
                     endDate: event.endTime)
             )
             .padding()

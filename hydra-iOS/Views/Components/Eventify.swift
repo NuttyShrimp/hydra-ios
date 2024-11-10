@@ -8,26 +8,29 @@
 import SwiftUI
 
 struct Eventify: ViewModifier {
-    var type: EventType
+    var event: any Eventable
     var startDate: Date
     var endDate: Date? = nil
     var dateFormatter = RelativeDateTimeFormatter()
 
-    init(eventType type: EventType, startDate: Date) {
-        self.type = type
+    init(event: any Eventable, startDate: Date) {
+        self.event = event
         self.startDate = startDate
     }
 
-    init(eventType type: EventType, startDate: Date, endDate: Date?) {
-        self.type = type
+    init(event: any Eventable, startDate: Date, endDate: Date?) {
+        self.event = event
         self.startDate = startDate
         self.endDate = endDate
     }
 
     func body(content: Content) -> some View {
         VStack {
+            if Configuration.EventFeedShowPriority {
+                Text("Priority: \(event.priority())")
+            }
             HStack {
-                switch type {
+                switch event.type {
                 case .UGent: UGentHeader
                 case .DSA: DSAHeader
                 default: Text("Unconfigured header")
