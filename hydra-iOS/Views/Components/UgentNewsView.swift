@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct UgentNewsView: View {
-    let event: UgentNewsEntry
+    let event: UGentNewsEvent
     @Environment(\.openURL) var openURL
 
-    init(_ card: UgentNewsEntry) {
+    init(_ card: UGentNewsEvent) {
         self.event = card
     }
 
@@ -34,7 +34,7 @@ struct UgentNewsView: View {
 }
 
 #Preview {
-    let entry = UgentNewsEntry(
+    let entry = UGentNewsEvent(
         id: "1", title: "FLASH: De spaghetti is op in de Brug",
         summary:
             "Vanaf vandaag is er GEEN spaghetti meer te koop in studenten restaurant de Brug",

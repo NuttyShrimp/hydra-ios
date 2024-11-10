@@ -1,30 +1,13 @@
 //
-//  Association.swift
+//  AssocationHolder.swift
 //  hydra-iOS
 //
-//  Created by Jan Lecoutere on 28/10/2024.
+//  Created by Jan Lecoutere on 10/11/2024.
 //
 
 import Foundation
 
-struct Association: Identifiable, Decodable {
-    var abbreviation: String
-    var name: String
-    var description: String?
-    var email: String?
-    var logo: URL?
-    var website: URL?
-    
-    var id: String {
-        name
-    }
-}
-
-struct AssociationResponse: Decodable {
-    var associations: [Association]
-}
-
-struct Associations {
+struct AssociationsHolder {
     private(set) var associations: [Association] = []
     
     mutating func fetch() async throws {

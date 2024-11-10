@@ -8,7 +8,7 @@
 import Foundation
 
 class DSA: ObservableObject {
-    @Published private(set) var associations = Associations();
+    @Published private(set) var associations = AssociationsHolder();
     
     init() {
         Task {

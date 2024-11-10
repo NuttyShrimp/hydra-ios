@@ -22,8 +22,8 @@ struct NewsView: View {
                         DSAActivityView(
                             dsaEvent, dsa.getForName(dsaEvent.association))
                     }
-                    if event is UgentNewsEntry {
-                        UgentNewsView((event as? UgentNewsEntry)!)
+                    if event is UGentNewsEvent {
+                        UgentNewsView((event as? UGentNewsEvent)!)
                     }
                 }
             }

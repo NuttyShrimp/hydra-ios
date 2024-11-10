@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UgentNewsEntry: Decodable, Identifiable, Eventable {
+struct UGentNewsEvent: Decodable, Identifiable, Eventable {
     let id: String
     let type: EventType = .UGent
     let title: String
@@ -32,6 +32,3 @@ struct UgentNewsEntry: Decodable, Identifiable, Eventable {
     }
 }
 
-struct UgentNewsResponse: Decodable {
-    var entries: [UgentNewsEntry]
-}

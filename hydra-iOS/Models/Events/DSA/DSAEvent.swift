@@ -40,11 +40,3 @@ struct DSAEvent: Decodable, Identifiable, Eventable {
         case entryId = "id"
     }
 }
-
-struct DSAResponse: Decodable {
-    public var page: DSAPage
-}
-
-struct DSAPage: Decodable {
-    public var entries: [DSAEvent]
-}
