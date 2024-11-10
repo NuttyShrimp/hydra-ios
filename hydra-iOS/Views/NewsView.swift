@@ -34,7 +34,10 @@ struct NewsView: View {
             Spacer(minLength: 30)
         }
         .padding([.horizontal], 10)
-        .onAppear {
+        .refreshable {
+            news.loadEvents()
+        }
+        .task {
             news.loadEvents()
         }
     }
