@@ -19,15 +19,12 @@ struct UgentNewsView: View {
         Button(action: {
             openURL(event.link)
         }) {
-            HStack {
-                Text(event.title)
-                    .multilineTextAlignment(.leading)
-                Spacer()
-            }
-            .modifier(
-                Eventify(event: event, startDate: event.published)
-            )
-            .padding()
+            Text(event.title)
+                .align(.left)
+                .modifier(
+                    Eventify(event: event, startDate: event.published)
+                )
+                .padding()
         }
         .foregroundStyle(Color(UIColor.label))
     }

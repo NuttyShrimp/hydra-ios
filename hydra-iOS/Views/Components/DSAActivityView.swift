@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct DSAActivityView: View {
+    private let transaction: Transaction = .init(animation: .linear)
+
     let event: DSAEvent
     let association: Association
 
@@ -21,24 +23,26 @@ struct DSAActivityView: View {
             debugPrint("abc")
         }) {
             HStack {
-                VStack(alignment: .leading) {
-                    Text(event.title)
-                    if event.startTime < Date.now && event.endTime != nil {
-                        Text(event.endTime!.ISO8601Format())
-                    } else {
-                        Text(event.startTime.ISO8601Format())
-                    }
-                }
+                Text(event.title)
+                    .align(.left)
                 Spacer()
                 if association.logo != nil {
-                    AsyncImage(url: association.logo) { image in
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(maxWidth: 75, maxHeight: 75)
-                    } placeholder: {
-                        ProgressView()
-                            .frame(width: 50, height: 50)
+                    AsyncImage(url: association.logo, transaction: transaction)
+                    { phase in
+                        if let image = phase.image {
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(maxWidth: 75, maxHeight: 75)
+                        } else if phase.error != nil {
+                            Image(systemName: "photo")
+                                .imageScale(.large)
+                                .foregroundColor(.gray)
+                                .frame(width: 75, height: 75)
+                        } else {
+                            ProgressView()
+                                .frame(width: 75, height: 75)
+                        }
                     }
                 }
             }
