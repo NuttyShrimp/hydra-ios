@@ -8,8 +8,14 @@
 import Foundation
 
 enum Configuration {
+    // Show the priority for each event in the feed
     static var EventFeedShowPriority: Bool {
         string(for: "EVENT_FEED_SHOW_PRIORITY") == "YES"
+    }
+    
+    // Shows all specials regardless of the start & end date
+    static var EventFeedShowAllSpecials: Bool {
+        string(for: "EVENT_FEED_SHOW_ALL_SPECIALS") == "YES"
     }
     
     static private func string(for key: String) -> String {

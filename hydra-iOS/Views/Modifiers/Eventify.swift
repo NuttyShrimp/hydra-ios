@@ -33,6 +33,7 @@ struct Eventify: ViewModifier {
                 switch event.type {
                 case .UGent: UGentHeader
                 case .DSA: DSAHeader
+                case .SpecialEvent: SpecialEventHeader
                 default: Text("Unconfigured header")
                 }
                 Spacer()
@@ -72,7 +73,15 @@ struct Eventify: ViewModifier {
             Text("Activiteit")
         }
     }
-
+    
+    var SpecialEventHeader: some View {
+        HStack {
+            Image(systemName: "exclamationmark.bubble.fill")
+                .foregroundStyle(.accent)
+            Text("Mededeling")
+        }
+    }
+    
     private struct Constants {
         struct FontSize {
             static let header: CGFloat = 14
@@ -83,5 +92,5 @@ struct Eventify: ViewModifier {
 }
 
 enum EventType {
-    case UGent, DSA, Schamper
+    case UGent, DSA, Schamper, SpecialEvent
 }

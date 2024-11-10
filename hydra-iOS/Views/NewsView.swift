@@ -17,13 +17,16 @@ struct NewsView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 16)
                         .fill(Color(.systemBackground))
-                    if event is DSAEvent {
-                        let dsaEvent = (event as? DSAEvent)!
+                    switch event {
+                    case let dsaEvent as DSAEvent:
                         DSAActivityView(
                             dsaEvent, dsa.getForName(dsaEvent.association))
-                    }
-                    if event is UGentNewsEvent {
-                        UgentNewsView((event as? UGentNewsEvent)!)
+                    case let ugentNewsEvent as UGentNewsEvent:
+                        UgentNewsView(ugentNewsEvent)
+                    case let specialEvent as SpecialEvent:
+                        SpecialEventView(specialEvent)
+                    default:
+                        Text("Unknown event type")
                     }
                 }
             }

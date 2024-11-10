@@ -14,10 +14,11 @@ class NewsViewModel: ObservableObject {
     // TODO: Make eventHolder protocol to use loops for functions
     @Published private var dsaEventHolder = DSAEventHolder();
     @Published private var ugentEventHolder = UGentNewsEventHolder();
+    @Published private var specialEventHolder = SpecialEventHolder();
     
     var events: [any Eventable] {
         // TODO: push events to the front if they happen in the future but in less than 24h
-        return ((dsaEventHolder.events as [any Eventable]) + (ugentEventHolder.events as [any Eventable]))
+        return ((dsaEventHolder.events as [any Eventable]) + (ugentEventHolder.events as [any Eventable]) + (specialEventHolder.events as [any Eventable]))
             .sorted {
                 $0.priority() < $1.priority()
             }
@@ -38,9 +39,12 @@ class NewsViewModel: ObservableObject {
                 debugPrint("Failed to load Ugent news events: \(error)")
             }
         }
-    }
-
-    private func isEventSoon(_ event: any Eventable) -> Bool {
-        return Date.now.addingTimeInterval(DAY * -1) < event.eventDate && event.eventDate < Date.now.addingTimeInterval(DAY)
+        Task {
+            do {
+                try await specialEventHolder.loadEvents()
+            } catch {
+                debugPrint("Failed to load special events: \(error)")
+            }
+        }
     }
 }
