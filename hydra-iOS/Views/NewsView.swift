@@ -38,6 +38,7 @@ struct NewsView: View {
             news.loadEvents()
         }
         .task {
+            await dsa.loadAssocations()
             news.loadEvents()
         }
     }

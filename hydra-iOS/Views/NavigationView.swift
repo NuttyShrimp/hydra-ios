@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct NavigationView: View {
-    @ObservedObject var navigationModel: Navigation;
+    @MainActor @ObservedObject var navigationModel: Navigation;
     @ObservedObject var newsViewModel = NewsViewModel();
     @ObservedObject var dsa = DSA();
 

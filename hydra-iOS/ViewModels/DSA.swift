@@ -8,18 +8,16 @@
 import Foundation
 
 class DSA: ObservableObject {
-    @Published private(set) var associations = AssociationsHolder();
-    
-    init() {
-        Task {
-            do {
-                try await associations.fetch()
-            } catch {
-                debugPrint("Failed to load DSA Assocations \(error)")
-            }
+    @Published private(set) var associations = AssociationsHolder()
+
+    func loadAssocations() async {
+        do {
+            try await associations.fetch()
+        } catch {
+            debugPrint("Failed to load DSA Assocations \(error)")
         }
     }
-    
+
     func getForName(_ name: String) -> Association {
         var association = associations.getByAbbreviation(name)
         if association == nil {

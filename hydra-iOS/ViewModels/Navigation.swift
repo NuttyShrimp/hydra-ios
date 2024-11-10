@@ -7,19 +7,20 @@
 
 import Foundation
 
+@MainActor
 class Navigation: ObservableObject {
-    @Published private var tabs = Tabs();
+    @MainActor @Published private var selectedTab: Int = 0
     
     var currentTab: Int {
         get {
-            tabs.selectedTab
+            selectedTab
         }
         set (tab) {
-            tabs.setSelectedTab(tab)
+            selectedTab = tab
         }
     }
     
     func selectTab(_ tab: Int) {
-        tabs.setSelectedTab(tab)
+        selectedTab = tab
     }
 }
