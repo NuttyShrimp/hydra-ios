@@ -8,6 +8,8 @@ import SwiftUI
 
 struct NavigationView: View {
     @ObservedObject var navigationModel: Navigation;
+    @ObservedObject var newsViewModel = NewsViewModel();
+    @ObservedObject var dsa = DSA();
 
     var body: some View {
         NavigationStack {
@@ -15,7 +17,7 @@ struct NavigationView: View {
                 VStack {
                     TabView(selection: $navigationModel.currentTab) {
                         // TODO: dsa should be stored somewhere because this data is has a lesser change at getting stale between tab changes then the news entries
-                        NewsView(news: NewsViewModel(), dsa: DSA())
+                        NewsView(news: newsViewModel, dsa: dsa)
                             .tag(0)
                             .padding([.bottom], 10)
                         RestoView().tag(1)
