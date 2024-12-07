@@ -7,9 +7,10 @@
 import SwiftUI
 
 struct NavigationView: View {
-    @MainActor @ObservedObject var navigationModel: Navigation;
-    @ObservedObject var newsViewModel = NewsViewModel();
-    @ObservedObject var dsa = DSA();
+    @MainActor @ObservedObject var navigationModel: Navigation
+    @ObservedObject var newsViewModel = NewsViewModel()
+    @ObservedObject var dsa = DSA()
+    @ObservedObject var restos = Restos()
 
     var body: some View {
         NavigationStack {
@@ -20,7 +21,8 @@ struct NavigationView: View {
                         NewsView(news: newsViewModel, dsa: dsa)
                             .tag(0)
                             .padding([.bottom], 10)
-                        RestoView().tag(1)
+                        RestoView(restos: restos)
+                            .tag(1)
                         SettingsView().tag(2)
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -38,8 +40,12 @@ struct NavigationView: View {
                                     VStack(spacing: 0) {
                                         LinearGradient(
                                             stops: [
-                                                Gradient.Stop(color: .clear, location: .zero),
-                                                Gradient.Stop(color: .black, location: 1.0)
+                                                Gradient.Stop(
+                                                    color: .clear,
+                                                    location: .zero),
+                                                Gradient.Stop(
+                                                    color: .black, location: 1.0
+                                                ),
                                             ],
                                             startPoint: .top,
                                             endPoint: .bottom
@@ -59,4 +65,10 @@ struct NavigationView: View {
 
 #Preview {
     NavigationView(navigationModel: Navigation())
+}
+
+#Preview("Resto focused") {
+    let navModel = Navigation()
+    navModel.currentTab = 1
+    return NavigationView(navigationModel: navModel)
 }
