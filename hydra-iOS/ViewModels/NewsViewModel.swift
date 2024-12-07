@@ -5,7 +5,6 @@
 //  Created by Jan Lecoutere on 13/10/2024.
 //
 
-import Alamofire
 import Foundation
 
 private var DAY: TimeInterval = 24 * 60 * 60
