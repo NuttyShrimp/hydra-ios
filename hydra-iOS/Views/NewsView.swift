@@ -13,20 +13,22 @@ struct NewsView: View {
 
     var body: some View {
         ScrollView {
-            ForEach(news.events, id: \.id) { event in
-                ZStack {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color(.systemBackground))
-                    switch event {
-                    case let dsaEvent as DSAEvent:
-                        DSAActivityView(
-                            dsaEvent, dsa.getForName(dsaEvent.association))
-                    case let ugentNewsEvent as UGentNewsEvent:
-                        UgentNewsView(ugentNewsEvent)
-                    case let specialEvent as SpecialEvent:
-                        SpecialEventView(specialEvent)
-                    default:
-                        Text("Unknown event type")
+            LazyVStack {
+                ForEach(news.events, id: \.id) { event in
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color(.systemBackground))
+                        switch event {
+                        case let dsaEvent as DSAEvent:
+                            DSAActivityView(
+                                dsaEvent, dsa.getForName(dsaEvent.association))
+                        case let ugentNewsEvent as UGentNewsEvent:
+                            UgentNewsView(ugentNewsEvent)
+                        case let specialEvent as SpecialEvent:
+                            SpecialEventView(specialEvent)
+                        default:
+                            Text("Unknown event type")
+                        }
                     }
                 }
             }
