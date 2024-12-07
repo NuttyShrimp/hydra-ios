@@ -19,13 +19,15 @@ struct NavigationView: View {
                     TabView(selection: $navigationModel.currentTab) {
                         // TODO: dsa should be stored somewhere because this data is has a lesser change at getting stale between tab changes then the news entries
                         NewsView(news: newsViewModel, dsa: dsa)
-                            .tag(0)
                             .padding([.bottom], 10)
+                            .tag(0)
                         RestoView(restos: restos)
                             .tag(1)
                         SettingsView().tag(2)
+                            .toolbar(.hidden, for: .tabBar)
                     }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+//                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                    .tabViewStyle(.page)
                     .background(Color(.systemGray6))
                 }
                 .safeAreaInset(edge: .bottom) {

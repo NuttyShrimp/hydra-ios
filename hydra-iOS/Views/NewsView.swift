@@ -36,6 +36,8 @@ struct NewsView: View {
             Spacer(minLength: 30)
         }
         .padding([.horizontal], 10)
+        .navigationTitle("News articles & upcoming events")
+        .navigationBarTitleDisplayMode(.inline)
         .refreshable {
             news.loadEvents()
         }

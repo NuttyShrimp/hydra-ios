@@ -11,14 +11,9 @@ struct RestoView: View {
     @ObservedObject var restos: Restos
     @State var selectedIndex = 0
 
-    init(restos: Restos) {
-        self.restos = restos
-    }
-
     var body: some View {
-        VStack {
-            mealTabs
-        }.navigationTitle(restos.selectedRestoMeta?.name ?? "Resto's")
+        mealTabs
+            .navigationTitle(restos.selectedRestoMeta?.name ?? "Resto's")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -64,12 +59,11 @@ struct RestoView: View {
     var selectionMenu: some View {
         Menu(
             content: {
-                ForEach(Array(restos.restoMetas.enumerated()), id: \.offset) {
-                    index, restoMeta in
+                ForEach(restos.restoMetas.indices, id: \.self) { index in
                     Button(action: {
                         restos.selectResto(index)
                     }) {
-                        Text(restoMeta.name)
+                        Text(restos.restoMetas[index].name)
                     }
                 }
             }, label: { Image(systemName: "mappin") })
