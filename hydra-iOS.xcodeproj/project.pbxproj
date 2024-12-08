@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F8FB8A752D0486E90037E95E /* PhosphorSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F8FB8A742D0486E90037E95E /* PhosphorSwift */; };
+		F85F81F92D05FB7300967018 /* LucideIcons in Frameworks */ = {isa = PBXBuildFile; productRef = F85F81F82D05FB7300967018 /* LucideIcons */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8FB8A752D0486E90037E95E /* PhosphorSwift in Frameworks */,
+				F85F81F92D05FB7300967018 /* LucideIcons in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +83,7 @@
 			);
 			name = "hydra-iOS";
 			packageProductDependencies = (
-				F8FB8A742D0486E90037E95E /* PhosphorSwift */,
+				F85F81F82D05FB7300967018 /* LucideIcons */,
 			);
 			productName = "hydra-iOS";
 			productReference = F84E400D2CB3F05D00202EF8 /* hydra-iOS.app */;
@@ -114,7 +114,7 @@
 			mainGroup = F84E40042CB3F05D00202EF8;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				F8FB8A732D0486E90037E95E /* XCRemoteSwiftPackageReference "swift" */,
+				F85F81F72D05FB7300967018 /* XCRemoteSwiftPackageReference "lucide-icons-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F84E400E2CB3F05D00202EF8 /* Products */;
@@ -362,21 +362,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F8FB8A732D0486E90037E95E /* XCRemoteSwiftPackageReference "swift" */ = {
+		F85F81F72D05FB7300967018 /* XCRemoteSwiftPackageReference "lucide-icons-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/phosphor-icons/swift";
+			repositoryURL = "https://github.com/JakubMazur/lucide-icons-swift";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.0;
+				minimumVersion = 0.468.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F8FB8A742D0486E90037E95E /* PhosphorSwift */ = {
+		F85F81F82D05FB7300967018 /* LucideIcons */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F8FB8A732D0486E90037E95E /* XCRemoteSwiftPackageReference "swift" */;
-			productName = PhosphorSwift;
+			package = F85F81F72D05FB7300967018 /* XCRemoteSwiftPackageReference "lucide-icons-swift" */;
+			productName = LucideIcons;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

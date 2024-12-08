@@ -11,7 +11,7 @@ class Restos: ObservableObject {
     @Published private(set) var restoMetas: [RestoMeta] = []
     @Published private var restoMenu: [RestoMenu] = []
     @Published private var selectedResto: Int = 0
-    @Published private var selectedDate: Int = 0
+    @Published var selectedDate: Int = 0
 
     var selectedRestoMeta: RestoMeta? {
         if restoMetas.count <= selectedResto {
@@ -21,7 +21,7 @@ class Restos: ObservableObject {
     }
 
     var selectedRestoMenu: RestoMenu? {
-        if restoMenu.count <= selectedDate {
+        if restoMenu.count <= selectedDate || selectedDate < 0 {
             return nil
         }
         return restoMenu[selectedDate]
@@ -69,6 +69,7 @@ class Restos: ObservableObject {
         let (data, _) = try await URLSession.shared.data(from: url)
 
         restoMenu = try MealDecoder().decode([RestoMenu].self, from: data)
+        restoMenu.indices.forEach { restoMenu[$0].fixSoups() }
 
         debugPrint("Loaded \(restoMenu.count) days of resto menus")
     }

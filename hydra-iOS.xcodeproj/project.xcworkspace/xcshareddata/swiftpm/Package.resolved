@@ -1,13 +1,13 @@
 {
-  "originHash" : "f84d2d2adb013c70be815e88479b4bf7b26831bc96edd0f931b21143faab48df",
+  "originHash" : "3886c302203b5f6b0618d7ecdc8afc0d32201d0adaa6ce8e5f9f531f87e8511f",
   "pins" : [
     {
-      "identity" : "swift",
+      "identity" : "lucide-icons-swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/phosphor-icons/swift",
+      "location" : "https://github.com/JakubMazur/lucide-icons-swift",
       "state" : {
-        "revision" : "9a9467181782bbe319ad4935d0993c77cd8a5fbc",
-        "version" : "2.1.0"
+        "revision" : "517c304e18225186ba8ab87ab4baaee7883b6613",
+        "version" : "0.468.0"
       }
     }
   ],

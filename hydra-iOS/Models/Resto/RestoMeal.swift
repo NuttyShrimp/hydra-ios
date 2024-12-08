@@ -13,6 +13,21 @@ struct RestoMeal: Decodable {
     var allergens: [String]
 }
 
-enum RestoMealKind: String, Decodable {
-    case fish, meat, vegan, vegetarian, soup
+enum RestoMealKind: String, Decodable, CaseIterable {
+    case meat, fish, soup, vegetarian, vegan
+
+    func toString() -> String {
+        switch self {
+        case .fish:
+            return "Vis"
+        case .meat:
+            return "Vlees"
+        case .vegan:
+            return "Vegan"
+        case .vegetarian:
+            return "Vegetarisch"
+        case .soup:
+            return "Soep"
+        }
+    }
 }

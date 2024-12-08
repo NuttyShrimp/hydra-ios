@@ -9,7 +9,6 @@ import SwiftUI
 
 struct RestoView: View {
     @ObservedObject var restos: Restos
-    @State var selectedIndex = 0
 
     var body: some View {
         mealTabs
@@ -27,32 +26,30 @@ struct RestoView: View {
 
     // Tab header from: https://www.appcoda.com/swiftui-custom-tab-bar
     var mealTabs: some View {
-        ZStack(alignment: .top) {
-            TabView(selection: $selectedIndex) {
-                var tabs = $restos.mealBarTabs
-                ForEach(tabs.indices, id: \.self) { index in
-                    if index == 0 {
-                        legend
-                            .tag(index)
-                    } else {
-                        ZStack(alignment: .top) {
-                            if let menu = restos.selectedRestoMenu {
-                                SingleDayRestoMenu(menu: menu)
-                            } else {
-                                Text("No menu available")
-                            }
-                        }
-                        .tag(index)
-                    }
-                }
-            }
-            .ignoresSafeArea()
-
+        VStack {
             TabBarView(
                 tabbarItems: restos.mealBarTabs,
-                selectedIndex: $selectedIndex
+                selectedIndex: $restos.selectedDate
             )
-            .padding(.horizontal)
+
+            TabView(selection: $restos.selectedDate) {
+                var tabs = $restos.mealBarTabs
+                ForEach(tabs.indices, id: \.self) { index in
+                    ZStack(alignment: .top) {
+                        if index == 0 {
+                            legend
+                        } else if let menu = restos.selectedRestoMenu {
+                            SingleDayRestoMenu(menu: menu)
+                        } else {
+                            Text("No menu available")
+                        }
+                    }
+                    .frame(
+                        minWidth: 0, maxWidth: .infinity, minHeight: 0,
+                        maxHeight: .infinity, alignment: .topLeading)
+                    .tag(index - 1)
+                }
+            }.padding(.horizontal)
         }
     }
 
@@ -71,10 +68,17 @@ struct RestoView: View {
     }
 
     var legend: some View {
-        Text("Legende")
-    }
-    var dayView: some View {
-        Text("Day")
+        VStack(alignment: .leading) {
+            ForEach(RestoMealKind.allCases, id: \.self) { kind in
+                HStack(spacing: 5) {
+                    MealIcon(kind: kind)
+                        .frame(width: 30, height: 30)
+                        .scaleEffect(1.5)
+                    Text(kind.toString())
+                }
+                .font(.system(size: 20))
+            }
+        }
     }
 }
 
@@ -116,12 +120,12 @@ struct TabBarView: View {
                     ForEach(tabbarItems.indices, id: \.self) { index in
                         TabbarItem(
                             name: tabbarItems[index],
-                            isActive: selectedIndex == index,
+                            isActive: selectedIndex == (index - 1),
                             namespace: menuItemTransition
                         )
                         .onTapGesture {
                             withAnimation(.easeInOut) {
-                                selectedIndex = index
+                                selectedIndex = (index - 1)
                             }
                         }
                     }
