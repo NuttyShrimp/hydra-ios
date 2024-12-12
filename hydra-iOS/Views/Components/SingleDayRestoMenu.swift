@@ -20,10 +20,13 @@ struct SingleDayRestoMenu: View {
                 closedMessage
             }
             if menu.open {
-                hotMeals
-                coldMeals
-                soup
-                vegetables
+                List {
+                    hotMeals
+                    coldMeals
+                    soup
+                    vegetables
+
+                }
             }
         }
     }
@@ -71,10 +74,7 @@ struct MealSection: View {
 
     var body: some View {
         if meals.count > 0 {
-            VStack(alignment: .leading) {
-                Text(title)
-                    .font(.title3)
-                    .fontWeight(.bold)
+            Section(header: Text(title).font(.system(size: 16).bold())) {
                 ForEach(meals, id: \.name) { meal in
                     HStack(spacing: 5) {
                         MealIcon(kind: meal.kind)

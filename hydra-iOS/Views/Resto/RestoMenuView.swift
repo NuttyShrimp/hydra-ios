@@ -24,6 +24,7 @@ struct RestoMenuView: View {
                     ZStack(alignment: .top) {
                         if index == 0 {
                             legend
+                            .padding(.horizontal)
                         } else if let menu = restos.selectedRestoMenu {
                             SingleDayRestoMenu(menu: menu)
                         } else {
@@ -36,7 +37,7 @@ struct RestoMenuView: View {
                     )
                     .tag(index - 1)
                 }
-            }.padding(.horizontal)
+            }
         }
     }
 
