@@ -12,8 +12,7 @@ class Restos: ObservableObject {
     @Published private var restoMenu: [RestoMenu] = []
     @Published private var selectedResto: Int = 0
     @Published var selectedDate: Int = 0
-    @Published private var sandwichHolder = RestoSandwichHolder()
-
+    
     var selectedRestoMeta: RestoMeta? {
         if restoMetas.count <= selectedResto {
             return nil
@@ -31,10 +30,6 @@ class Restos: ObservableObject {
     var mealBarTabs: [String] {
         get { ["Legend"] + restoMenu.map { $0.date.relativeDayOfWeek() } }
         set {}
-    }
-    
-    var availableSandwiches: [RestoSandwich] {
-        return sandwichHolder.sandwiches
     }
     
     func loadAvailableRestos() async {
@@ -59,16 +54,6 @@ class Restos: ObservableObject {
         }
     }
     
-    func loadSandwiches() async {
-        do {
-            debugPrint("Loading sandwiches menu")
-            try await sandwichHolder.load()
-            debugPrint("Finished loading sandwiches menu")
-        } catch {
-            debugPrint("Failed to load sandwiches menu \(error)")
-        }
-    }
-
     private func loadMeals() async throws {
         debugPrint("Loading resto menu")
 

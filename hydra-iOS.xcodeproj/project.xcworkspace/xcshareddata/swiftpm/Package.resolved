@@ -1,5 +1,5 @@
 {
-  "originHash" : "3886c302203b5f6b0618d7ecdc8afc0d32201d0adaa6ce8e5f9f531f87e8511f",
+  "originHash" : "7d9fc586683457969fc87619239eb7c9acef7e63bc0daf3c2ee3bedbd2f93de2",
   "pins" : [
     {
       "identity" : "lucide-icons-swift",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "517c304e18225186ba8ab87ab4baaee7883b6613",
         "version" : "0.468.0"
+      }
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections.git",
+      "state" : {
+        "revision" : "671108c96644956dddcd89dd59c203dcdb36cec7",
+        "version" : "1.1.4"
       }
     }
   ],

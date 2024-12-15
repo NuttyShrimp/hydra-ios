@@ -9,12 +9,22 @@ import LucideIcons
 import SwiftUI
 
 enum RestoNavigationOptions: String {
-    case sandwiches, salades, locations
+    case extraMenus, locations
+    
+    func toString() -> String {
+        switch self {
+        case .extraMenus:
+            return "Overige menu's"
+        case .locations:
+            return "Locations"
+        }
+    }
 
 }
 
 struct RestoView: View {
     @ObservedObject var restos: Restos
+    var additionalResto = AdditionalResto()
 
     var body: some View {
         NavigationStack {
@@ -52,23 +62,25 @@ struct RestoView: View {
     var otherMenu: some View {
         Menu(
             content: {
-                NavigationLink(value: RestoNavigationOptions.sandwiches) {
-                    Label(
-                        title: { Text("Sandwiches") },
-                        icon: { Image(uiImage: Lucide.sandwich) })
+                HStack {
+                    NavigationLink(value: RestoNavigationOptions.extraMenus) {
+                        Label(
+                            title: { Text("Other food options") },
+                            icon: { Image(uiImage: Lucide.sandwich) })
+                    }
                 }
             }, label: { Image(systemName: "ellipsis") }
         )
         .navigationDestination(for: RestoNavigationOptions.self) { option in
             ZStack {
-                switch (option) {
-                case .sandwiches:
-                    SandwichesView(restos: restos)
+                switch option {
+                case .extraMenus:
+                    OtherFoodMenuView(additionalResto: additionalResto)
                 default:
                     Text("TODO")
                 }
             }
-            .navigationTitle(option.rawValue.capitalized)
+            .navigationTitle(option.toString().capitalized)
             .navigationBarTitleDisplayMode(.inline)
         }
     }
