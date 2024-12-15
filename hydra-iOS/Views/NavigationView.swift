@@ -26,7 +26,6 @@ struct NavigationView: View {
                         SettingsView().tag(2)
                             .toolbar(.hidden, for: .tabBar)
                     }
-//                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                     .tabViewStyle(.page)
                     .background(Color(.systemGray6))
                 }

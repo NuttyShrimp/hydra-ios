@@ -8,7 +8,7 @@
 import LucideIcons
 import SwiftUI
 
-enum RestoNavigationOptions: String {
+enum RestoNavigationOptions {
     case extraMenus, locations
     
     func toString() -> String {
@@ -16,7 +16,7 @@ enum RestoNavigationOptions: String {
         case .extraMenus:
             return "Overige menu's"
         case .locations:
-            return "Locations"
+            return "Locaties"
         }
     }
 
@@ -65,7 +65,7 @@ struct RestoView: View {
                 HStack {
                     NavigationLink(value: RestoNavigationOptions.extraMenus) {
                         Label(
-                            title: { Text("Other food options") },
+                            title: { Text(RestoNavigationOptions.extraMenus.toString()) },
                             icon: { Image(uiImage: Lucide.sandwich) })
                     }
                 }

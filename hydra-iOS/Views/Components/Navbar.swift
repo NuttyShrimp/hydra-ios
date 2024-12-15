@@ -18,7 +18,7 @@ struct Navbar: View {
                 VStack {
                     Image(systemName: "newspaper.fill")
                     if navigationModel.currentTab == 0 {
-                        Text("News")
+                        Text("Nieuws")
                     }
                 }
             }
@@ -44,7 +44,7 @@ struct Navbar: View {
                 VStack {
                     Image(systemName: "gear")
                     if navigationModel.currentTab == 2 {
-                        Text("Settings")
+                        Text("Instellingen")
                     }
                 }
             }

@@ -28,7 +28,7 @@ class Restos: ObservableObject {
     }
 
     var mealBarTabs: [String] {
-        get { ["Legend"] + restoMenu.map { $0.date.relativeDayOfWeek() } }
+        get { ["Legende"] + restoMenu.map { $0.date.relativeDayOfWeek() } }
         set {}
     }
     

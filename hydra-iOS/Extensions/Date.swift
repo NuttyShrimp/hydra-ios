@@ -23,12 +23,12 @@ extension Date {
             let now = Date()
             let ninePM = Calendar.current.date(bySettingHour: 21, minute: 0, second: 0, of: now)!
             if self.isBefore(ninePM) {
-                return "Today"
+                return "Vandaag"
             }
-            return "Tomorrow"
+            return "Morgen"
         }
         if Calendar.current.isDateInTomorrow(self) {
-            return "Tomorrow"
+            return "Morgen"
         }
         
         let dateFormatter = DateFormatter()
@@ -40,7 +40,7 @@ extension Date {
         let nextSunday = Calendar.current.nextDate(after: now, matching: DateComponents(weekday: 1), matchingPolicy: .nextTime)
         if let sunday = nextSunday {
             if self.isAfter(sunday) {
-                return "Next \(relDate)"
+                return "Volgende \(relDate.lowercased())"
             }
         }
         return relDate
