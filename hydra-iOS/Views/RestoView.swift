@@ -68,6 +68,11 @@ struct RestoView: View {
                             title: { Text(RestoNavigationOptions.extraMenus.toString()) },
                             icon: { Image(uiImage: Lucide.sandwich) })
                     }
+                    NavigationLink(value: RestoNavigationOptions.locations) {
+                        Label(
+                            title: { Text(RestoNavigationOptions.locations.toString()) },
+                            icon: { Image(systemName: "map") })
+                    }
                 }
             }, label: { Image(systemName: "ellipsis") }
         )
@@ -76,8 +81,8 @@ struct RestoView: View {
                 switch option {
                 case .extraMenus:
                     OtherFoodMenuView(additionalResto: additionalResto)
-                default:
-                    Text("TODO")
+                case .locations:
+                    RestoLocations(restos: restos)
                 }
             }
             .navigationTitle(option.toString().capitalized)
