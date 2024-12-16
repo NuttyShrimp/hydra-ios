@@ -14,6 +14,7 @@ class NewsViewModel: ObservableObject {
     @Published private var dsaEventHolder = DSAEventHolder();
     @Published private var ugentEventHolder = UGentNewsEventHolder();
     @Published private var specialEventHolder = SpecialEventHolder();
+    var isLoading = true
     
     var events: [any Eventable] {
         // TODO: push events to the front if they happen in the future but in less than 24h
@@ -40,5 +41,6 @@ class NewsViewModel: ObservableObject {
         } catch {
             debugPrint("Failed to load special events: \(error)")
         }
+        isLoading = false
     }
 }

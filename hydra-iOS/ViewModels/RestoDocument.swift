@@ -13,8 +13,8 @@ class RestoDocument: ObservableObject {
     @Published private var selectedRestoMenus: [RestoMenu] = []
     @Published private var selectedResto: Int = 0
     @Published var selectedDate: Int = 0
-    @Published var isLoading = false
-    
+    @Published var isLoading = true
+
     var selectedRestoMeta: RestoMeta? {
         if restoMetas.count <= selectedResto {
             return nil
@@ -33,20 +33,23 @@ class RestoDocument: ObservableObject {
         get { ["Legende"] + selectedRestoMenus.map { $0.date.relativeDayOfWeek() } }
         set {}
     }
-    
+
     func getMenuForDay(day index: Int) -> RestoMenu? {
         if selectedRestoMenus.count <= index || index < 0 {
             return nil
         }
         return selectedRestoMenus[index]
     }
-    
+
     func loadAvailableRestos() async {
         debugPrint("Loading resto metadata")
+        defer {
+            isLoading = false
+        }
         do {
             guard let url = URL(string: "\(Constants.ZEUS_V2)/resto/meta.json")
             else { return }
-            
+
             let (data, _) = try await URLSession.shared.data(from: url)
 
             let response = try CustomDecoder().decode(
@@ -62,7 +65,7 @@ class RestoDocument: ObservableObject {
             debugPrint("Failed to load available restos \(error)")
         }
     }
-    
+
     private func loadMeals() async throws {
         debugPrint("Loading resto menu")
 

@@ -27,21 +27,28 @@ struct RestoView: View {
     @StateObject var additionalResto = AdditionalResto()
 
     var body: some View {
-        NavigationStack {
-            RestoMenuView(restos: restos)
-                .navigationTitle(restos.selectedRestoMeta?.name ?? "Resto's")
+        if restos.isLoading {
+            ProgressView()
+                .navigationTitle("Resto's")
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        selectionMenu
-                    }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        otherMenu
-                    }
+                .task {
+                    await restos.loadAvailableRestos()
                 }
-        }
-        .task {
-            await restos.loadAvailableRestos()
+        } else {
+            NavigationStack {
+                RestoMenuView(restos: restos)
+                    .navigationTitle(restos.selectedRestoMeta?.name ?? "Resto's")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            selectionMenu
+                        }
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            otherMenu
+                        }
+                    }
+            }
+
         }
     }
 
