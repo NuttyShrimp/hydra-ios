@@ -10,9 +10,10 @@ import Foundation
 @MainActor
 class RestoDocument: ObservableObject {
     @Published private(set) var restoMetas: [RestoMeta] = []
-    @Published private var restoMenu: [RestoMenu] = []
+    @Published private var selectedRestoMenus: [RestoMenu] = []
     @Published private var selectedResto: Int = 0
     @Published var selectedDate: Int = 0
+    @Published var isLoading = false
     
     var selectedRestoMeta: RestoMeta? {
         if restoMetas.count <= selectedResto {
@@ -22,15 +23,22 @@ class RestoDocument: ObservableObject {
     }
 
     var selectedRestoMenu: RestoMenu? {
-        if restoMenu.count <= selectedDate || selectedDate < 0 {
+        if selectedRestoMenus.count <= selectedDate || selectedDate < 0 {
             return nil
         }
-        return restoMenu[selectedDate]
+        return selectedRestoMenus[selectedDate]
     }
 
     var mealBarTabs: [String] {
-        get { ["Legende"] + restoMenu.map { $0.date.relativeDayOfWeek() } }
+        get { ["Legende"] + selectedRestoMenus.map { $0.date.relativeDayOfWeek() } }
         set {}
+    }
+    
+    func getMenuForDay(day index: Int) -> RestoMenu? {
+        if selectedRestoMenus.count <= index || index < 0 {
+            return nil
+        }
+        return selectedRestoMenus[index]
     }
     
     func loadAvailableRestos() async {
@@ -38,7 +46,7 @@ class RestoDocument: ObservableObject {
         do {
             guard let url = URL(string: "\(Constants.ZEUS_V2)/resto/meta.json")
             else { return }
-
+            
             let (data, _) = try await URLSession.shared.data(from: url)
 
             let response = try CustomDecoder().decode(
@@ -69,10 +77,10 @@ class RestoDocument: ObservableObject {
 
         let (data, _) = try await URLSession.shared.data(from: url)
 
-        restoMenu = try MealDecoder().decode([RestoMenu].self, from: data)
-        restoMenu.indices.forEach { restoMenu[$0].fixSoups() }
+        selectedRestoMenus = try MealDecoder().decode([RestoMenu].self, from: data)
+        selectedRestoMenus.indices.forEach { selectedRestoMenus[$0].fixSoups() }
 
-        debugPrint("Loaded \(restoMenu.count) days of resto menus")
+        debugPrint("Loaded \(selectedRestoMenus.count) days of resto menus")
     }
 
     func selectResto(_ index: Int) {

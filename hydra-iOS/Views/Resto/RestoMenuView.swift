@@ -21,28 +21,37 @@ struct RestoMenuView: View {
             TabView(selection: $restos.selectedDate) {
                 let tabs = $restos.mealBarTabs
                 ForEach(tabs.indices, id: \.self) { index in
-                    ZStack(alignment: .top) {
-                        if index == 0 {
-                            legend
-                            .padding(.horizontal)
-                        } else if let menu = restos.selectedRestoMenu {
-                            SingleDayRestoMenu(menu: menu)
-                                .padding(.vertical, 0)
-                        } else {
-                            Text("No menu available")
-                        }
-                    }
-                    .frame(
-                        minWidth: 0, maxWidth: .infinity, minHeight: 0,
-                        maxHeight: .infinity, alignment: .topLeading
-                    )
-                    .tag(index - 1)
+                    RestoMenuTabItemView(index: index, restos: restos)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
         }
     }
+}
 
+struct RestoMenuTabItemView: View {
+    var index: Int
+    @ObservedObject var restos: RestoDocument
+    
+    var body: some View {
+        ZStack(alignment: .top) {
+            if index == 0 {
+                legend
+                .padding(.horizontal)
+            } else if let menu = restos.getMenuForDay(day: index-1) {
+                SingleDayRestoMenu(menu: menu)
+                    .padding(.vertical, 0)
+            } else {
+                Text("No menu available")
+            }
+        }
+        .frame(
+            minWidth: 0, maxWidth: .infinity, minHeight: 0,
+            maxHeight: .infinity, alignment: .topLeading
+        )
+        .tag(index - 1)
+    }
+    
     var legend: some View {
         VStack(alignment: .leading) {
             ForEach(RestoMealKind.allCases, id: \.self) { kind in
@@ -57,4 +66,3 @@ struct RestoMenuView: View {
         }
     }
 }
-
