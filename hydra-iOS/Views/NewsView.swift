@@ -39,11 +39,11 @@ struct NewsView: View {
         .navigationTitle("Nieuws & Events")
         .navigationBarTitleDisplayMode(.inline)
         .refreshable {
-            news.loadEvents()
+            await news.loadEvents()
         }
         .task {
             await dsa.loadAssocations()
-            news.loadEvents()
+            await news.loadEvents()
         }
     }
 }

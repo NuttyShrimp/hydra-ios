@@ -23,27 +23,21 @@ class NewsViewModel: ObservableObject {
             }
     }
 
-    func loadEvents() {
-        Task {
-            do {
-                try await dsaEventHolder.loadEvents()
-            } catch {
-                debugPrint("Failed to load DSA Events: \(error)")
-            }
+    func loadEvents() async {
+        do {
+            try await dsaEventHolder.loadEvents()
+        } catch {
+            debugPrint("Failed to load DSA Events: \(error)")
         }
-        Task {
-            do {
-                try await ugentEventHolder.loadEvents()
-            } catch {
-                debugPrint("Failed to load Ugent news events: \(error)")
-            }
+        do {
+            try await ugentEventHolder.loadEvents()
+        } catch {
+            debugPrint("Failed to load Ugent news events: \(error)")
         }
-        Task {
-            do {
-                try await specialEventHolder.loadEvents()
-            } catch {
-                debugPrint("Failed to load special events: \(error)")
-            }
+        do {
+            try await specialEventHolder.loadEvents()
+        } catch {
+            debugPrint("Failed to load special events: \(error)")
         }
     }
 }
