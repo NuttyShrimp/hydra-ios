@@ -10,6 +10,7 @@ import Foundation
 struct SpecialEventHolder {
     private(set) var events: [SpecialEvent] = []
 
+    @MainActor
     mutating func loadEvents() async throws {
         debugPrint("Loading special events")
         let url = URL(

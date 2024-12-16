@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class RestoDocument: ObservableObject {
     @Published private(set) var restoMetas: [RestoMeta] = []
     @Published private var restoMenu: [RestoMenu] = []

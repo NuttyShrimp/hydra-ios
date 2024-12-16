@@ -10,6 +10,7 @@ import Foundation
 class DSA: ObservableObject {
     @Published private(set) var associations = AssociationsHolder()
 
+    @MainActor
     func loadAssocations() async {
         do {
             try await associations.fetch()
@@ -18,7 +19,7 @@ class DSA: ObservableObject {
         }
     }
 
-    func getForName(_ name: String) -> Association {
+    nonisolated func getForName(_ name: String) -> Association {
         var association = associations.getByAbbreviation(name)
         if association == nil {
             debugPrint("Assocation with name: \(name) not found in dsa list")

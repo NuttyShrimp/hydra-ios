@@ -10,6 +10,7 @@ import Foundation
 public struct DSAEventHolder {
     private(set) var events: [DSAEvent] = []
     
+    @MainActor
     mutating func loadEvents() async throws {
          debugPrint("Loading DSA events")
          var url = URL(string: "\(Constants.DSA)/activiteiten")!

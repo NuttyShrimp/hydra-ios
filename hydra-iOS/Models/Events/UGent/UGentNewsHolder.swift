@@ -10,6 +10,7 @@ import Foundation
 public struct UGentNewsEventHolder {
     private(set) var events: [UGentNewsEvent] = []
     
+    @MainActor
     mutating func loadEvents() async throws {
          debugPrint("Loading UGent news events")
          let url = URL(string: "\(Constants.ZEUS_V2)/news/nl.json")!

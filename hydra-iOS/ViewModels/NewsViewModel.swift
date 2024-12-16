@@ -7,7 +7,7 @@
 
 import Foundation
 
-private var DAY: TimeInterval = 24 * 60 * 60
+private let DAY: TimeInterval = 24 * 60 * 60
 
 class NewsViewModel: ObservableObject {
     // TODO: Make eventHolder protocol to use loops for functions
@@ -23,6 +23,7 @@ class NewsViewModel: ObservableObject {
             }
     }
 
+    @MainActor
     func loadEvents() async {
         do {
             try await dsaEventHolder.loadEvents()

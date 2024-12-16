@@ -10,6 +10,7 @@ import Foundation
 struct AssociationsHolder {
     private(set) var associations: [Association] = []
     
+    @MainActor
     mutating func fetch() async throws {
         let url = URL(string: "\(Constants.DSA)/verenigingen")!
         let (data, _) = try await URLSession.shared.data(from: url)

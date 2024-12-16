@@ -33,6 +33,7 @@ class AdditionalResto: ObservableObject {
         return ordDict
     }
     
+    @MainActor
     func loadAllInfo() async {
         do {
             try await sandwichHolder.load()

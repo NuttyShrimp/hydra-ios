@@ -50,7 +50,7 @@ struct RestoLocations: View {
     }
     
     struct Constants {
-        static let mapLaunchOptions: [String: Any] = [
+        static let mapLaunchOptions: [String: String] = [
             MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault,
         ]
     }
