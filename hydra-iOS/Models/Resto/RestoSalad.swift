@@ -16,6 +16,7 @@ struct RestoSalad: Decodable {
 struct RestoSaladHolder {
     var salads: [RestoSalad] = []
 
+    @MainActor
     mutating func load() async throws {
         guard
             let url = URL(

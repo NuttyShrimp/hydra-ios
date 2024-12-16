@@ -23,6 +23,7 @@ struct RestoSandwich: Decodable, Identifiable {
 struct RestoSandwichHolder {
     var sandwiches: [RestoSandwich] = []
 
+    @MainActor
     mutating func load() async throws {
         guard
             let url = URL(

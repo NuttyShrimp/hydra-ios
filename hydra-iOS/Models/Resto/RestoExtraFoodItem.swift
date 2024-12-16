@@ -10,6 +10,7 @@ import Foundation
 struct RestoExtraFoodItemHolder {
     var items: [String : [OtherMenuItem]] = [:]
     
+    @MainActor
     mutating func load() async throws {
         guard
             let url = URL(
