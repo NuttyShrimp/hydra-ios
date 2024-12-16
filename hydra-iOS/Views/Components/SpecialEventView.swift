@@ -22,7 +22,7 @@ struct SpecialEventView: View {
         Button(action: {
             openURL(event.link)
         }) {
-            HStack {
+            HStack(alignment: .top) {
                 Text(event.name)
                     .align(.left)
                 Spacer()

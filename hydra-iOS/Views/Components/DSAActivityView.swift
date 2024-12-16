@@ -22,7 +22,7 @@ struct DSAActivityView: View {
         Button(action: {
             debugPrint("abc")
         }) {
-            HStack {
+            HStack(alignment: .top) {
                 Text(event.title)
                     .align(.left)
                 Spacer()
