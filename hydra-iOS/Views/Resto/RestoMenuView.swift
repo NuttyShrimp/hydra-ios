@@ -27,6 +27,7 @@ struct RestoMenuView: View {
                             .padding(.horizontal)
                         } else if let menu = restos.selectedRestoMenu {
                             SingleDayRestoMenu(menu: menu)
+                                .padding(.vertical, 0)
                         } else {
                             Text("No menu available")
                         }
@@ -38,6 +39,7 @@ struct RestoMenuView: View {
                     .tag(index - 1)
                 }
             }
+            .tabViewStyle(.page(indexDisplayMode: .never))
         }
     }
 

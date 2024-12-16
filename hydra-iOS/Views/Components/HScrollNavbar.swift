@@ -26,7 +26,7 @@ struct TabbarItem: View {
                 .font(.subheadline)
                 .padding(.horizontal)
                 .padding(.vertical, 4)
-                .foregroundColor(.black)
+                .foregroundColor(Color(UIColor.label))
         }
 
     }
@@ -64,8 +64,6 @@ struct HScrollNavbar: View {
                     scrollView.scrollTo(index, anchor: .center)
                 }
             }
-
         }
-
     }
 }

@@ -65,12 +65,24 @@ struct RestoView: View {
                 HStack {
                     NavigationLink(value: RestoNavigationOptions.extraMenus) {
                         Label(
-                            title: { Text(RestoNavigationOptions.extraMenus.toString()) },
-                            icon: { Image(uiImage: Lucide.sandwich) })
+                            title: {
+                                Text(
+                                    RestoNavigationOptions.extraMenus.toString()
+                                )
+                            },
+                            icon: {
+                                Image(uiImage: Lucide.sandwich)
+                                    .renderingMode(.template)
+                                    .foregroundColor(
+                                        .white)
+                            })
                     }
                     NavigationLink(value: RestoNavigationOptions.locations) {
                         Label(
-                            title: { Text(RestoNavigationOptions.locations.toString()) },
+                            title: {
+                                Text(
+                                    RestoNavigationOptions.locations.toString())
+                            },
                             icon: { Image(systemName: "map") })
                     }
                 }

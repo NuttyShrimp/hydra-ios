@@ -17,7 +17,7 @@ struct NewsView: View {
                 ForEach(news.events, id: \.id) { event in
                     ZStack {
                         RoundedRectangle(cornerRadius: 16)
-                            .fill(Color(.systemBackground))
+                            .fill(Color(.systemGray5))
                         switch event {
                         case let dsaEvent as DSAEvent:
                             DSAActivityView(

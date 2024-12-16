@@ -26,7 +26,7 @@ struct NavigationView: View {
                         SettingsView().tag(2)
                             .toolbar(.hidden, for: .tabBar)
                     }
-                    .tabViewStyle(.page)
+                    .tabViewStyle(.page(indexDisplayMode: .never))
                     .background(Color(.systemGray6))
                 }
                 .safeAreaInset(edge: .bottom) {

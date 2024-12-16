@@ -41,7 +41,7 @@ struct Eventify: ViewModifier {
             .font(.system(size: Constants.FontSize.header))
             Spacer()
             content
-                .font(.system(size: Constants.FontSize.content))
+                .font(.system(size: Constants.FontSize.content, weight: .bold))
             Spacer()
             HStack {
                 Text(
@@ -86,7 +86,7 @@ struct Eventify: ViewModifier {
         struct FontSize {
             static let header: CGFloat = 14
             static let date: CGFloat = 16
-            static let content: CGFloat = 22
+            static let content: CGFloat = 20
         }
     }
 }

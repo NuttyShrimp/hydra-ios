@@ -27,6 +27,8 @@ struct SingleDayRestoMenu: View {
                     vegetables
 
                 }
+                .scrollContentBackground(.hidden)
+                .background(Color(.systemGray6))
             }
         }
     }
@@ -82,6 +84,7 @@ struct MealSection: View {
                     }
                 }
             }
+            .listRowBackground(Color(.systemGray5))
         }
     }
 }
