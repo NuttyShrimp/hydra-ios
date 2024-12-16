@@ -12,43 +12,52 @@ struct NewsView: View {
     @ObservedObject var dsa: DSA
 
     var body: some View {
-        if news.isLoading {
-            ProgressView()
-                .navigationTitle("Nieuws & Events")
-                .navigationBarTitleDisplayMode(.inline)
-                .task {
-                    await dsa.loadAssocations()
-                    await news.loadEvents()
-                }
-        } else {
-            ScrollView {
-                LazyVStack {
-                    ForEach(news.events, id: \.id) { event in
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(Color(.systemGray5))
-                            switch event {
-                            case let dsaEvent as DSAEvent:
-                                DSAActivityView(
-                                    dsaEvent, dsa.getForName(dsaEvent.association))
-                            case let ugentNewsEvent as UGentNewsEvent:
-                                UgentNewsView(ugentNewsEvent)
-                            case let specialEvent as SpecialEvent:
-                                SpecialEventView(specialEvent)
-                            default:
-                                Text("Unknown event type")
+        ZStack {
+            if news.isLoading {
+                ProgressView()
+                    .task {
+                        await dsa.loadAssocations()
+                        await news.loadEvents()
+                    }
+            } else {
+                ScrollView {
+                    LazyVStack {
+                        ForEach(news.events, id: \.id) { event in
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(Color(.systemGray5))
+                                switch event {
+                                case let dsaEvent as DSAEvent:
+                                    DSAActivityView(
+                                        dsaEvent, dsa.getForName(dsaEvent.association))
+                                case let ugentNewsEvent as UGentNewsEvent:
+                                    UgentNewsView(ugentNewsEvent)
+                                case let specialEvent as SpecialEvent:
+                                    SpecialEventView(specialEvent)
+                                default:
+                                    Text("Unknown event type")
+                                }
                             }
                         }
                     }
+                    // This spacer is so we don't have entry stuck at behind the navbar
+                    Spacer(minLength: 30)
                 }
-                // This spacer is so we don't have entry stuck at behind the navbar
-                Spacer(minLength: 30)
+                .padding([.horizontal], 10)
+                .refreshable {
+                    await news.loadEvents()
+                }
             }
-            .padding([.horizontal], 10)
-            .navigationTitle("Nieuws & Events")
-            .navigationBarTitleDisplayMode(.inline)
-            .refreshable {
-                await news.loadEvents()
+        }
+        // We add a placeholder title so it thinks we have a title & thus can swipe between our tabs
+        .navigationTitle("Placeholder")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Image("HydraLogo")
+                    .resizable()
+                    .scaledToFit()
+                    .padding(.bottom, 10)
             }
         }
     }
