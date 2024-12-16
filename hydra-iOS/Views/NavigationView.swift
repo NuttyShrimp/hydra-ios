@@ -8,9 +8,9 @@ import SwiftUI
 
 struct NavigationView: View {
     @MainActor @ObservedObject var navigationModel: Navigation
-    @ObservedObject var newsViewModel = NewsViewModel()
-    @ObservedObject var dsa = DSA()
-    @ObservedObject var restos = Restos()
+    @StateObject var newsViewModel = NewsViewModel()
+    @StateObject var dsa = DSA()
+    @StateObject var restos = Restos()
 
     var body: some View {
         NavigationStack {

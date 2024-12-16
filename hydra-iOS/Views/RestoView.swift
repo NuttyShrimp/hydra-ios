@@ -24,7 +24,7 @@ enum RestoNavigationOptions {
 
 struct RestoView: View {
     @ObservedObject var restos: Restos
-    var additionalResto = AdditionalResto()
+    @StateObject var additionalResto = AdditionalResto()
 
     var body: some View {
         NavigationStack {
