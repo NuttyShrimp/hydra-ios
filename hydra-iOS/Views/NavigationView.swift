@@ -10,7 +10,7 @@ struct NavigationView: View {
     @MainActor @ObservedObject var navigationModel: Navigation
     @StateObject var newsViewModel = NewsViewModel()
     @StateObject var dsa = DSA()
-    @StateObject var restos = Restos()
+    @StateObject var restos = RestoDocument()
 
     var body: some View {
         NavigationStack {

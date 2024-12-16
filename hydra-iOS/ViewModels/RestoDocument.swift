@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Restos: ObservableObject {
+class RestoDocument: ObservableObject {
     @Published private(set) var restoMetas: [RestoMeta] = []
     @Published private var restoMenu: [RestoMenu] = []
     @Published private var selectedResto: Int = 0

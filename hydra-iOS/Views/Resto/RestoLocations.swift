@@ -9,7 +9,7 @@ import MapKit
 import SwiftUI
 
 struct RestoLocations: View {
-    var restos: Restos
+    var restos: RestoDocument
     @State private var userTrackingMode: MapUserTrackingMode = .follow
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
@@ -57,5 +57,5 @@ struct RestoLocations: View {
 }
 
 #Preview {
-    RestoLocations(restos: Restos())
+    RestoLocations(restos: RestoDocument())
 }

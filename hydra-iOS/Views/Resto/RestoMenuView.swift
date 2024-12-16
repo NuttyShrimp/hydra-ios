@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RestoMenuView: View {
-    @ObservedObject var restos: Restos
+    @ObservedObject var restos: RestoDocument
     
     // Tab header from: https://www.appcoda.com/swiftui-custom-tab-bar
     var body: some View {
