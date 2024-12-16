@@ -10,7 +10,7 @@ import SwiftUI
 
 enum RestoNavigationOptions {
     case extraMenus, locations
-    
+
     func toString() -> String {
         switch self {
         case .extraMenus:
@@ -71,10 +71,7 @@ struct RestoView: View {
                                 )
                             },
                             icon: {
-                                Image(uiImage: Lucide.sandwich)
-                                    .renderingMode(.template)
-                                    .foregroundColor(
-                                        .white)
+                                Image(uiImage: Lucide.sandwich.withRenderingMode(.alwaysTemplate))
                             })
                     }
                     NavigationLink(value: RestoNavigationOptions.locations) {

@@ -19,7 +19,7 @@ struct RestoMenuView: View {
             )
 
             TabView(selection: $restos.selectedDate) {
-                var tabs = $restos.mealBarTabs
+                let tabs = $restos.mealBarTabs
                 ForEach(tabs.indices, id: \.self) { index in
                     ZStack(alignment: .top) {
                         if index == 0 {
