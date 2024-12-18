@@ -14,6 +14,7 @@ class RestoDocument: ObservableObject {
     @Published private var selectedResto: Int = 0
     @Published var selectedDate: Int = 0
     @Published var isLoading = true
+    let userDefaults = UserDefaults.standard
 
     var selectedRestoMeta: RestoMeta? {
         if restoMetas.count <= selectedResto {
@@ -57,7 +58,13 @@ class RestoDocument: ObservableObject {
             restoMetas = response.locations.filter { $0.endpoint != nil }
 
             debugPrint("Loaded \(restoMetas.count) resto's metadata")
-
+            if let preferrerdResto = userDefaults.string(forKey: "preferredResto") {
+                debugPrint("Preferred resto found: \(preferrerdResto)")
+                if let index = restoMetas.firstIndex(where: { $0.endpoint == preferrerdResto }) {
+                    selectedResto = index
+                }
+            }
+            
             if restoMetas.count > 0 {
                 try await loadMeals()
             }

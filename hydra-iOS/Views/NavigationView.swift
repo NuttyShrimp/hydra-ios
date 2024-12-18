@@ -23,7 +23,7 @@ struct NavigationView: View {
                             .tag(0)
                         RestoView(restos: restos)
                             .tag(1)
-                        SettingsView().tag(2)
+                        SettingsView(restos: restos).tag(2)
                             .toolbar(.hidden, for: .tabBar)
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
@@ -66,10 +66,12 @@ struct NavigationView: View {
 
 #Preview {
     NavigationView(navigationModel: Navigation())
+        .environmentObject(AnalyticsDocument())
 }
 
 #Preview("Resto focused") {
     let navModel = Navigation()
     navModel.currentTab = 1
     return NavigationView(navigationModel: navModel)
+        .environmentObject(AnalyticsDocument())
 }
