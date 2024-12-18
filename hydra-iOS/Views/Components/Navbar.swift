@@ -13,43 +13,43 @@ struct Navbar: View {
     var body: some View {
         HStack {
             Button(action: {
-                navigationModel.selectTab(0)
+                navigationModel.selectTab(.events)
             }) {
                 VStack {
                     Image(systemName: "newspaper.fill")
-                    if navigationModel.currentTab == 0 {
+                    if navigationModel.currentTab == .events {
                         Text("Nieuws")
                     }
                 }
             }
             .frame(maxWidth: .infinity)
-            .foregroundStyle(navigationModel.currentTab == 0 ? Color.accentColor : .gray)
+            .foregroundStyle(navigationModel.currentTab == .events ? Color.accentColor : .gray)
             
             Button(action: {
-                navigationModel.selectTab(1)
+                navigationModel.selectTab(.resto)
             }) {
                 VStack {
                     Image(systemName: "fork.knife")
-                    if navigationModel.currentTab == 1 {
+                    if navigationModel.currentTab == .resto {
                         Text("Resto")
                     }
                 }
             }
             .frame(maxWidth: .infinity)
-            .foregroundStyle(navigationModel.currentTab == 1 ? Color.accentColor : .gray)
+            .foregroundStyle(navigationModel.currentTab == .resto ? Color.accentColor : .gray)
             
             Button(action: {
-                navigationModel.selectTab(2)
+                navigationModel.selectTab(.settings)
             }) {
                 VStack {
                     Image(systemName: "gear")
-                    if navigationModel.currentTab == 2 {
+                    if navigationModel.currentTab == .settings {
                         Text("Instellingen")
                     }
                 }
             }
             .frame(maxWidth: .infinity)
-            .foregroundStyle(navigationModel.currentTab == 2 ? Color.accentColor : .gray)
+            .foregroundStyle(navigationModel.currentTab == .settings ? Color.accentColor : .gray)
         }
         .frame(width: 300.0, height: 60.0, alignment: .center)
         .background(Color(.systemBackground))

@@ -1,6 +1,15 @@
 {
-  "originHash" : "7d9fc586683457969fc87619239eb7c9acef7e63bc0daf3c2ee3bedbd2f93de2",
+  "originHash" : "c4d8538b8afc773077d9daeb54a1eef2beeec7de569ef4dc9cb8ff1da493ae73",
   "pins" : [
+    {
+      "identity" : "countly-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Countly/countly-sdk-ios.git",
+      "state" : {
+        "revision" : "a19d604ae32ccdeafad0c30e60235e221af09e80",
+        "version" : "24.7.9"
+      }
+    },
     {
       "identity" : "lucide-icons-swift",
       "kind" : "remoteSourceControl",

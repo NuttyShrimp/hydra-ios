@@ -15,6 +15,9 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
+                Button("Crash") {
+                    fatalError("Oh no this was a test")
+                }
                 Section("Restaurant") {
                     Picker("Favoriet", selection: $preferredResto) {
                         ForEach(restos.restoMetas) { resto in
@@ -25,7 +28,7 @@ struct SettingsView: View {
                 }
                 Section("Data gebruik") {
                     Toggle(
-                        isOn: $analytics.fathomEnabled
+                        isOn: $analytics.analyticsEnabled
                     ) {
                         Text("Analytics")
                         Text(
@@ -33,7 +36,7 @@ struct SettingsView: View {
                         )
                     }
                     Toggle(
-                        isOn: $analytics.sentryEnabled
+                        isOn: $analytics.crashlyticsEnabled
                     ) {
                         Text("Crash reporting")
                         Text(

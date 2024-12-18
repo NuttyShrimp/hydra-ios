@@ -20,10 +20,10 @@ struct NavigationView: View {
                         // TODO: dsa should be stored somewhere because this data is has a lesser change at getting stale between tab changes then the news entries
                         NewsView(news: newsViewModel, dsa: dsa)
                             .padding([.bottom], 10)
-                            .tag(0)
+                            .tag(MainTabs.events)
                         RestoView(restos: restos)
-                            .tag(1)
-                        SettingsView(restos: restos).tag(2)
+                            .tag(MainTabs.resto)
+                        SettingsView(restos: restos).tag(MainTabs.settings)
                             .toolbar(.hidden, for: .tabBar)
                     }
                     .tabViewStyle(.page(indexDisplayMode: .never))
@@ -71,7 +71,7 @@ struct NavigationView: View {
 
 #Preview("Resto focused") {
     let navModel = Navigation()
-    navModel.currentTab = 1
+    navModel.currentTab = .resto
     return NavigationView(navigationModel: navModel)
         .environmentObject(AnalyticsDocument())
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F846C2B12D12DC2B0074399E /* Countly in Frameworks */ = {isa = PBXBuildFile; productRef = F846C2B02D12DC2B0074399E /* Countly */; };
 		F85F81F92D05FB7300967018 /* LucideIcons in Frameworks */ = {isa = PBXBuildFile; productRef = F85F81F82D05FB7300967018 /* LucideIcons */; };
 		F8C406F22D0F111500985942 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = F8C406F12D0F111500985942 /* OrderedCollections */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F846C2B12D12DC2B0074399E /* Countly in Frameworks */,
 				F8C406F22D0F111500985942 /* OrderedCollections in Frameworks */,
 				F85F81F92D05FB7300967018 /* LucideIcons in Frameworks */,
 			);
@@ -87,6 +89,7 @@
 			packageProductDependencies = (
 				F85F81F82D05FB7300967018 /* LucideIcons */,
 				F8C406F12D0F111500985942 /* OrderedCollections */,
+				F846C2B02D12DC2B0074399E /* Countly */,
 			);
 			productName = "hydra-iOS";
 			productReference = F84E400D2CB3F05D00202EF8 /* hydra-iOS.app */;
@@ -119,6 +122,7 @@
 			packageReferences = (
 				F85F81F72D05FB7300967018 /* XCRemoteSwiftPackageReference "lucide-icons-swift" */,
 				F8C406F02D0F111500985942 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				F846C2AF2D12DC2B0074399E /* XCRemoteSwiftPackageReference "countly-sdk-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F84E400E2CB3F05D00202EF8 /* Products */;
@@ -370,6 +374,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F846C2AF2D12DC2B0074399E /* XCRemoteSwiftPackageReference "countly-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Countly/countly-sdk-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.7.9;
+			};
+		};
 		F85F81F72D05FB7300967018 /* XCRemoteSwiftPackageReference "lucide-icons-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/JakubMazur/lucide-icons-swift";
@@ -389,6 +401,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F846C2B02D12DC2B0074399E /* Countly */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F846C2AF2D12DC2B0074399E /* XCRemoteSwiftPackageReference "countly-sdk-ios" */;
+			productName = Countly;
+		};
 		F85F81F82D05FB7300967018 /* LucideIcons */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F85F81F72D05FB7300967018 /* XCRemoteSwiftPackageReference "lucide-icons-swift" */;
