@@ -81,6 +81,10 @@ struct MealSection: View {
                     HStack(spacing: 5) {
                         MealIcon(kind: meal.kind)
                         Text(meal.name)
+                        Spacer()
+                        if let price = meal.price {
+                            Text(price)
+                        }
                     }
                 }
             }
