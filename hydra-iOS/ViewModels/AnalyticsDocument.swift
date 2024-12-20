@@ -25,8 +25,8 @@ class AnalyticsDocument: ObservableObject {
 
     func setupAnalyticsService() {
         let config: CountlyConfig = CountlyConfig()
-        config.appKey = "0ffe9799d8d143106af452774e8c2c4d873461af"
-        config.host = "http://localhost:7080"
+        config.appKey = Configuration.CountlyAppId
+        config.host = Configuration.CountlyHost
         // Disable location tracking as we don't care about this
         config.disableLocation = true
 
@@ -36,6 +36,7 @@ class AnalyticsDocument: ObservableObject {
 
     private func setupConsents() {
         let cInstance = Countly.sharedInstance()
+        cInstance.cancelConsentForAllFeatures()
         if crashlyticsEnabled {
             cInstance.giveConsent(forFeatures: [.crashReporting])
         } else {

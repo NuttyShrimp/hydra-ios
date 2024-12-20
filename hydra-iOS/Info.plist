@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>COUNTLY_APP_ID</key>
+	<string>$(COUNTLY_APP_ID)</string>
+	<key>COUNTLY_HOST</key>
+	<string>$(COUNTLY_HOST)</string>
 	<key>EVENT_FEED_SHOW_ALL_SPECIALS</key>
 	<string>$(EVENT_FEED_SHOW_ALL_SPECIALS)</string>
 	<key>EVENT_FEED_SHOW_PRIORITY</key>
