@@ -15,9 +15,6 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Button("Crash") {
-                    fatalError("Oh no this was a test")
-                }
                 Section("Restaurant") {
                     Picker("Favoriet", selection: $preferredResto) {
                         ForEach(restos.restoMetas) { resto in
