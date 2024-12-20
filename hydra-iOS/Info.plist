@@ -6,7 +6,5 @@
 	<string>$(EVENT_FEED_SHOW_ALL_SPECIALS)</string>
 	<key>EVENT_FEED_SHOW_PRIORITY</key>
 	<string>$(EVENT_FEED_SHOW_PRIORITY)</string>
-	<key>MKDirectionsApplicationSupportedModes</key>
-	<array/>
 </dict>
 </plist>
