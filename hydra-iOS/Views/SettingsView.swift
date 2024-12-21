@@ -11,7 +11,12 @@ struct SettingsView: View {
     @ObservedObject var restos: RestoDocument
     @EnvironmentObject var analytics: AnalyticsDocument
     @AppStorage("preferredResto") private var preferredResto = ""
-
+    @AppStorage("showAllergens") private var showAllergens: Bool = false {
+        didSet {
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             List {
@@ -20,6 +25,16 @@ struct SettingsView: View {
                         ForEach(restos.restoMetas) { resto in
                             Text(resto.name)
                                 .tag(resto.endpoint!)
+                        }
+                    }
+                    Toggle(
+                        isOn: $showAllergens
+                    ) {
+                        Text("Toon allergenen")
+                        Text("Toon de allergenen in de menu's van de restaurants.")
+                        HStack {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                            Text("Informatie over alleregenen wordt op een best-effort manier voorzien. Fouten zijn dus mogelijk!")
                         }
                     }
                 }

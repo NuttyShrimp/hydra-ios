@@ -11,6 +11,7 @@ import SwiftUI
 struct SingleDayRestoMenu: View {
     var menu: RestoMenu
     @Environment(\.openURL) var openURL
+    @AppStorage("showAllergens") var showAllergens: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
@@ -73,23 +74,66 @@ struct SingleDayRestoMenu: View {
 struct MealSection: View {
     var title: String
     var meals: [RestoMeal]
+    @AppStorage("showAllergens") var showAllergens: Bool = false
 
     var body: some View {
         if meals.count > 0 {
             Section(header: Text(title).font(.system(size: 16).bold())) {
                 ForEach(meals, id: \.name) { meal in
-                    HStack(spacing: 5) {
-                        MealIcon(kind: meal.kind)
-                        Text(meal.name)
-                        Spacer()
-                        if let price = meal.price {
-                            Text(price)
-                        }
+                    // This is a small hack to force the MealView to be rerendered when the allergen setting changes
+                    if $showAllergens.wrappedValue {
+                        MealView(meal, showAllergens: true)
+                    } else {
+                        MealView(meal, showAllergens: false)
                     }
                 }
             }
             .listRowBackground(Color(.systemGray5))
         }
+    }
+}
+
+struct MealView: View {
+    var meal: RestoMeal
+    @State private var isExpanded: Bool
+    
+    init(_ meal: RestoMeal, showAllergens isExpanded: Bool) {
+        self.meal = meal
+        self.isExpanded = isExpanded
+    }
+    
+    
+    var body: some View {
+        if meal.allergens.isEmpty {
+            basicInfo
+        } else {
+            allergensGroup
+        }
+    }
+    
+    var basicInfo: some View {
+        HStack(spacing: 5) {
+            MealIcon(kind: meal.kind)
+            Text(meal.name)
+            Spacer()
+            if let price = meal.price {
+                Text(price)
+            }
+        }
+    }
+    
+    var allergensGroup: some View {
+        DisclosureGroup(isExpanded: $isExpanded, content: {
+            Text(meal.allergens.joined(separator: ", "))
+                .font(.system(size: Constants.allergenFontSize))
+        }, label: {
+            basicInfo
+        })
+        .disclosureGroupStyle(.plain)
+    }
+    
+    struct Constants {
+        static let allergenFontSize: CGFloat = 14
     }
 }
 
