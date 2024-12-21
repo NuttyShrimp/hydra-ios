@@ -45,29 +45,22 @@ struct OtherMenuItemView: View {
 
     // TODO: for some reason is the text box smaller when collapsed
     var body: some View {
-        VStack {
+        DisclosureGroup(content: {
+            if let description = menuItem.description {
+                HStack {
+                    Text(description)
+                    Spacer()
+                }
+            }
+        }, label: {
             HStack {
                 Text(menuItem.name)
                     .font(.headline)
                 Spacer()
                 Text("€" + menuItem.price)
             }
-            if let description = menuItem.description {
-                HStack {
-                    Text(description)
-                    Spacer()
-                }
-                .frame(minHeight: 0, maxHeight: isExpanded ? .none : 0)
-                .clipped()
-            }
-        }
-        .onTapGesture {
-            withAnimation{
-                isExpanded.toggle()
-            }
-        }
-        .transition(.slide)
-        .animation(.smooth, value: isExpanded)
+        })
+        .disclosureGroupStyle(.plain)
     }
 }
 
