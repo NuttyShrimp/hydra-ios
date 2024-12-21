@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct SpecialEventView: View {
-    private let transaction: Transaction = .init(animation: .easeInOut)
-    
     let event: SpecialEvent
     
     @Environment(\.openURL) var openURL
@@ -26,23 +24,8 @@ struct SpecialEventView: View {
                 Text(event.name)
                     .align(.left)
                 Spacer()
-                if event.image != nil {
-                    AsyncImage(url: event.image, transaction: transaction) { phase in
-                        if let image = phase.image {
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxWidth: 75, maxHeight: 75)
-                        } else if phase.error != nil {
-                            Image(systemName: "photo")
-                                .imageScale(.large)
-                                .foregroundColor(.gray)
-                                .frame(width: 75, height: 75)
-                        } else {
-                            ProgressView()
-                                .frame(width: 75, height: 75)
-                        }
-                    }
+                if let image = event.image {
+                    HAsyncImage(url: image, size: 75)
                 }
             }
             .modifier(

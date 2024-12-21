@@ -12,7 +12,7 @@ struct NewsView: View {
     @ObservedObject var dsa: DSA
 
     var body: some View {
-        ZStack {
+        NavigationStack {
             if news.isLoading {
                 ProgressView()
                     .task {
@@ -50,7 +50,7 @@ struct NewsView: View {
             }
         }
         // We add a placeholder title so it thinks we have a title & thus can swipe between our tabs
-        .navigationTitle("Placeholder")
+        .navigationTitle("Nieuws")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
