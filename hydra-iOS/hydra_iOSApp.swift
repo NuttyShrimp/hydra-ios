@@ -11,6 +11,7 @@ import SwiftUI
 struct hydra_iOSApp: App {
     @StateObject var nav = Navigation()
     @ObservedObject var analytics = AnalyticsDocument()
+    @AppStorage("finishedOnboarding") var finishedOnboarding = false;
     
     init() {
         if _isReleaseAssertConfiguration() {
@@ -20,12 +21,16 @@ struct hydra_iOSApp: App {
 
     var body: some Scene {
             WindowGroup {
-                if #available(iOS 17.0, *) {
-                    NavigationView(navigationModel: nav)
-                        .environmentObject(analytics)
+                if finishedOnboarding {
+                    if #available(iOS 17.0, *) {
+                        NavigationView(navigationModel: nav)
+                            .environmentObject(analytics)
+                    } else {
+                        NavigationView(navigationModel: nav)
+                            .environmentObject(analytics)
+                    }
                 } else {
-                    NavigationView(navigationModel: nav)
-                    .environmentObject(analytics)
+                    OnboardingView(analytics: analytics)
                 }
             }
     }

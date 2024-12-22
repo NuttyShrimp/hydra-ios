@@ -16,7 +16,7 @@ struct SettingsView: View {
             UserDefaults.standard.synchronize()
         }
     }
-    
+
     var body: some View {
         NavigationStack {
             List {
@@ -34,7 +34,9 @@ struct SettingsView: View {
                         Text("Toon de allergenen in de menu's van de restaurants.")
                         HStack {
                             Image(systemName: "exclamationmark.triangle.fill")
-                            Text("Informatie over alleregenen wordt op een best-effort manier voorzien. Fouten zijn dus mogelijk!")
+                            Text(
+                                "Informatie over alleregenen wordt op een best-effort manier voorzien. Fouten zijn dus mogelijk!"
+                            )
                         }
                     }
                 }
@@ -56,6 +58,15 @@ struct SettingsView: View {
                         )
                     }
                 }
+                #if DEBUG
+                    Button(
+                        action: {
+                            UserDefaults.standard.removeObject(forKey: "finishedOnboarding")
+                        },
+                        label: {
+                            Label("Reset onboarding", systemImage: "arrow.clockwise")
+                        })
+                #endif
             }
         }
         .navigationTitle("Settings")
