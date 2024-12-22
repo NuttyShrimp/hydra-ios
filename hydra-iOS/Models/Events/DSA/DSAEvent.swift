@@ -31,7 +31,7 @@ struct DSAEvent: Decodable, Identifiable, Eventable {
 
     func priority() -> Int {
         let hoursUntilStart = Int(startTime.timeIntervalSinceNow / 60 / 60)
-        return priorityLerp(hoursUntilStart, 0, 30 * 24)
+        return max(0, priorityLerp(hoursUntilStart, 0, 30 * 24))
     }
 
     private enum CodingKeys: String, CodingKey {
