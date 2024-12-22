@@ -10,8 +10,8 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var restos: RestoDocument
     @EnvironmentObject var analytics: AnalyticsDocument
-    @AppStorage("preferredResto") private var preferredResto = ""
-    @AppStorage("showAllergens") private var showAllergens: Bool = false {
+    @AppStorage(GlobalConstants.StorageKeys.preferredResto) private var preferredResto = ""
+    @AppStorage(GlobalConstants.StorageKeys.allergens) private var showAllergens: Bool = false {
         didSet {
             UserDefaults.standard.synchronize()
         }
@@ -61,7 +61,7 @@ struct SettingsView: View {
                 #if DEBUG
                     Button(
                         action: {
-                            UserDefaults.standard.removeObject(forKey: "finishedOnboarding")
+                            UserDefaults.standard.removeObject(forKey: GlobalConstants.StorageKeys.onboarding)
                         },
                         label: {
                             Label("Reset onboarding", systemImage: "arrow.clockwise")

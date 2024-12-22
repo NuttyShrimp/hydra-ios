@@ -10,15 +10,15 @@ import Foundation
 
 class AnalyticsDocument: ObservableObject {
     var userDefaults = UserDefaults.standard
-    @Published var crashlyticsEnabled = UserDefaults.standard.bool(forKey: "crashlyticsEnabled") {
+    @Published var crashlyticsEnabled = UserDefaults.standard.bool(forKey: GlobalConstants.StorageKeys.crashlytics) {
         didSet {
-            UserDefaults.standard.set(crashlyticsEnabled, forKey: "crashlyticsEnabled")
+            UserDefaults.standard.set(crashlyticsEnabled, forKey: GlobalConstants.StorageKeys.crashlytics)
             setupConsents()
         }
     }
-    @Published var analyticsEnabled = UserDefaults.standard.bool(forKey: "analyticsEnabled") {
+    @Published var analyticsEnabled = UserDefaults.standard.bool(forKey: GlobalConstants.StorageKeys.analytics) {
         didSet {
-            UserDefaults.standard.set(crashlyticsEnabled, forKey: "analyticsEnabled")
+            UserDefaults.standard.set(crashlyticsEnabled, forKey: GlobalConstants.StorageKeys.analytics)
             setupConsents()
         }
     }

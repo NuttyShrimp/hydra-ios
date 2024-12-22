@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OnboardingNewsFeed: View {
-    @AppStorage("finishedOnboarding") var finishedOnboarding = false
+    @AppStorage(GlobalConstants.StorageKeys.onboarding) var finishedOnboarding = false
 
     var body: some View {
         VStack {

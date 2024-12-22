@@ -11,7 +11,7 @@ import SwiftUI
 struct SingleDayRestoMenu: View {
     var menu: RestoMenu
     @Environment(\.openURL) var openURL
-    @AppStorage("showAllergens") var showAllergens: Bool = false
+    @AppStorage(GlobalConstants.StorageKeys.allergens) var showAllergens: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
@@ -74,7 +74,7 @@ struct SingleDayRestoMenu: View {
 struct MealSection: View {
     var title: String
     var meals: [RestoMeal]
-    @AppStorage("showAllergens") var showAllergens: Bool = false
+    @AppStorage(GlobalConstants.StorageKeys.allergens) var showAllergens: Bool = false
 
     var body: some View {
         if meals.count > 0 {

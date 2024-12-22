@@ -25,7 +25,7 @@ struct SpecialEvent: Decodable, Identifiable, Eventable {
     }
     
     func priority() -> Int {
-        Constants.Priority.FEED_MAX_PRIORITY - apiPriority - 2 * Constants.Priority.FEED_SPECIAL_OFFSET
+        GlobalConstants.Priority.FEED_MAX_PRIORITY - apiPriority - 2 * GlobalConstants.Priority.FEED_SPECIAL_OFFSET
     }
     
     enum CodingKeys: String, CodingKey {

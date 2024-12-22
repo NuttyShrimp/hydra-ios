@@ -13,7 +13,7 @@ public struct UGentNewsEventHolder {
     @MainActor
     mutating func loadEvents() async throws {
          debugPrint("Loading UGent news events")
-         let url = URL(string: "\(Constants.ZEUS_V2)/news/nl.json")!
+         let url = URL(string: "\(GlobalConstants.ZEUS_V2)/news/nl.json")!
         
          let (data, _) = try await URLSession.shared.data(from: url)
          

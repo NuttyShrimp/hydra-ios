@@ -12,7 +12,7 @@ struct AssociationsHolder {
     
     @MainActor
     mutating func fetch() async throws {
-        let url = URL(string: "\(Constants.DSA)/verenigingen")!
+        let url = URL(string: "\(GlobalConstants.DSA)/verenigingen")!
         let (data, _) = try await URLSession.shared.data(from: url)
         let response = try CustomDecoder().decode(AssociationResponse.self, from: data)
         associations = response.associations

@@ -11,5 +11,5 @@
  * p = (x - a) * FEED_MAX_VALUE / (b - a)
  */
 func priorityLerp(_ x: Int, _ a: Int, _ b: Int) -> Int {
-    return min(Int((Double(x - a) * Double(Constants.Priority.FEED_MAX_PRIORITY)) / Double(b - a)), Constants.Priority.FEED_MAX_PRIORITY) + Constants.Priority.FEED_SPECIAL_OFFSET
+    return min(Int((Double(x - a) * Double(GlobalConstants.Priority.FEED_MAX_PRIORITY)) / Double(b - a)), GlobalConstants.Priority.FEED_MAX_PRIORITY) + GlobalConstants.Priority.FEED_SPECIAL_OFFSET
 }

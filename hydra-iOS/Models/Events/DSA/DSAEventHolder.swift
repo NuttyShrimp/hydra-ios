@@ -13,7 +13,7 @@ public struct DSAEventHolder {
     @MainActor
     mutating func loadEvents() async throws {
          debugPrint("Loading DSA events")
-         var url = URL(string: "\(Constants.DSA)/activiteiten")!
+         var url = URL(string: "\(GlobalConstants.DSA)/activiteiten")!
          url.append(queryItems: [URLQueryItem(name: "page_size", value: "50")])
          
          let (data, _) = try await URLSession.shared.data(from: url)

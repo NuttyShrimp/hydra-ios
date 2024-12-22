@@ -11,7 +11,7 @@ import SwiftUI
 struct hydra_iOSApp: App {
     @StateObject var nav = Navigation()
     @ObservedObject var analytics = AnalyticsDocument()
-    @AppStorage("finishedOnboarding") var finishedOnboarding = false;
+    @AppStorage(GlobalConstants.StorageKeys.onboarding) var finishedOnboarding = false;
     
     init() {
         if _isReleaseAssertConfiguration() {

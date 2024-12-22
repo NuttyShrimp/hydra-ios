@@ -48,7 +48,7 @@ class RestoDocument: ObservableObject {
             isLoading = false
         }
         do {
-            guard let url = URL(string: "\(Constants.ZEUS_V2)/resto/meta.json")
+            guard let url = URL(string: "\(GlobalConstants.ZEUS_V2)/resto/meta.json")
             else { return }
 
             let (data, _) = try await URLSession.shared.data(from: url)
@@ -58,7 +58,7 @@ class RestoDocument: ObservableObject {
             restoMetas = response.locations.filter { $0.endpoint != nil }
 
             debugPrint("Loaded \(restoMetas.count) resto's metadata")
-            if let preferrerdResto = userDefaults.string(forKey: "preferredResto") {
+            if let preferrerdResto = userDefaults.string(forKey: GlobalConstants.StorageKeys.preferredResto) {
                 debugPrint("Preferred resto found: \(preferrerdResto)")
                 if let index = restoMetas.firstIndex(where: { $0.endpoint == preferrerdResto }) {
                     selectedResto = index
@@ -82,7 +82,7 @@ class RestoDocument: ObservableObject {
 
         let url = URL(
             string:
-                "\(Constants.ZEUS_V2)/resto/menu/\(selectedRestoMeta)/overview.json"
+                "\(GlobalConstants.ZEUS_V2)/resto/menu/\(selectedRestoMeta)/overview.json"
         )!
 
         let (data, _) = try await URLSession.shared.data(from: url)

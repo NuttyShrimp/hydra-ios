@@ -16,7 +16,7 @@ struct RestoAllergensHolder {
     mutating func load() async throws {
         guard
             let url = URL(
-                string: "\(Constants.ZEUS_V2)/resto/allergens.json")
+                string: "\(GlobalConstants.ZEUS_V2)/resto/allergens.json")
         else { return }
 
         let (data, _) = try await URLSession.shared.data(from: url)

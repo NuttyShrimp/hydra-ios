@@ -14,7 +14,7 @@ struct SpecialEventHolder {
     mutating func loadEvents() async throws {
         debugPrint("Loading special events")
         let url = URL(
-            string: "\(Constants.ZEUS_V2)/association/special_events.json")!
+            string: "\(GlobalConstants.ZEUS_V2)/association/special_events.json")!
 
         let (data, _) = try await URLSession.shared.data(from: url)
 
