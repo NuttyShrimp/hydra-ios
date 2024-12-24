@@ -11,7 +11,8 @@ struct NavigationView: View {
     @StateObject var newsViewModel = NewsViewModel()
     @StateObject var dsa = DSA()
     @StateObject var restos = RestoDocument()
-
+    @StateObject var info = ExtraInfoDocument()
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
@@ -23,6 +24,8 @@ struct NavigationView: View {
                             .tag(MainTabs.events)
                         RestoView(restos: restos)
                             .tag(MainTabs.resto)
+                        ExtraInfoView(info: info)
+                            .tag(MainTabs.info)
                         SettingsView(restos: restos).tag(MainTabs.settings)
                             .toolbar(.hidden, for: .tabBar)
                     }

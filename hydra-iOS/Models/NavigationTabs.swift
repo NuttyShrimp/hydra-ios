@@ -6,5 +6,5 @@
 //
 
 enum MainTabs: String, Hashable {
-    case events, resto, settings
+    case events, resto, info, settings
 }

@@ -37,6 +37,19 @@ struct Navbar: View {
             }
             .frame(maxWidth: .infinity)
             .foregroundStyle(navigationModel.currentTab == .resto ? Color.accentColor : .gray)
+
+            Button(action: {
+                navigationModel.selectTab(.info)
+            }) {
+                VStack {
+                    Image(systemName: "info")
+                    if navigationModel.currentTab == .info {
+                        Text("Info")
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .foregroundStyle(navigationModel.currentTab == .info ? Color.accentColor : .gray)
             
             Button(action: {
                 navigationModel.selectTab(.settings)
