@@ -32,7 +32,7 @@ struct ExtraInfoEntryView: View {
         } else if let html = entry.html {
             NavigationLink(
                 destination: {
-                    WebView(text: html)
+                    ExtraInfoWebView(entry: entry)
                 },
                 label: {
                     ExtraInfoLabel(entry.title, entry.image)
@@ -112,6 +112,31 @@ struct ExtraInfoLabel: View {
             "info_heart": "heart.fill",
             "info_academiccalendar": "calendar",
         ]
+    }
+}
+
+struct ExtraInfoWebView: View {
+    var entry: InfoEntry
+    @State var isLoading: Bool = true;
+    @State var html: String = ""
+    
+    var body: some View {
+        ZStack {
+            if isLoading {
+                ProgressView()
+            } else {
+                WebView(text: html)
+            }
+        }
+        .task {
+            do  {
+                isLoading = true
+                html = try await entry.loadWebPage()
+                isLoading = false
+            } catch {
+                debugPrint("Error loading web page: \(error)")
+            }
+        }
     }
 }
 

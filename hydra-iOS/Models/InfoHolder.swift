@@ -15,6 +15,17 @@ struct InfoEntry: Decodable, Identifiable {
     var subcontent: [InfoEntry]?
     
     var id: String { title }
+    
+    func loadWebPage() async throws -> String {
+        guard let html = html else { return "" }
+        guard
+            let url = URL(
+                string: "\(GlobalConstants.ZEUS_V2)/info/\(html)")
+        else { return "" }
+
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return String(data: data, encoding: .utf8) ?? ""
+    }
 }
 
 struct InfoHolder {
