@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F83901182D1D83BC00952647 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = F83901172D1D83BC00952647 /* AlertToast */; };
 		F846C2B12D12DC2B0074399E /* Countly in Frameworks */ = {isa = PBXBuildFile; productRef = F846C2B02D12DC2B0074399E /* Countly */; };
 		F85F81F92D05FB7300967018 /* LucideIcons in Frameworks */ = {isa = PBXBuildFile; productRef = F85F81F82D05FB7300967018 /* LucideIcons */; };
 		F8C406F22D0F111500985942 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = F8C406F12D0F111500985942 /* OrderedCollections */; };
@@ -43,6 +44,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F846C2B12D12DC2B0074399E /* Countly in Frameworks */,
+				F83901182D1D83BC00952647 /* AlertToast in Frameworks */,
 				F8C406F22D0F111500985942 /* OrderedCollections in Frameworks */,
 				F85F81F92D05FB7300967018 /* LucideIcons in Frameworks */,
 			);
@@ -90,6 +92,7 @@
 				F85F81F82D05FB7300967018 /* LucideIcons */,
 				F8C406F12D0F111500985942 /* OrderedCollections */,
 				F846C2B02D12DC2B0074399E /* Countly */,
+				F83901172D1D83BC00952647 /* AlertToast */,
 			);
 			productName = "hydra-iOS";
 			productReference = F84E400D2CB3F05D00202EF8 /* hydra-iOS.app */;
@@ -123,6 +126,7 @@
 				F85F81F72D05FB7300967018 /* XCRemoteSwiftPackageReference "lucide-icons-swift" */,
 				F8C406F02D0F111500985942 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				F846C2AF2D12DC2B0074399E /* XCRemoteSwiftPackageReference "countly-sdk-ios" */,
+				F83901162D1D83BC00952647 /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F84E400E2CB3F05D00202EF8 /* Products */;
@@ -390,6 +394,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F83901162D1D83BC00952647 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		F846C2AF2D12DC2B0074399E /* XCRemoteSwiftPackageReference "countly-sdk-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Countly/countly-sdk-ios.git";
@@ -417,6 +429,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F83901172D1D83BC00952647 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F83901162D1D83BC00952647 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
 		F846C2B02D12DC2B0074399E /* Countly */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F846C2AF2D12DC2B0074399E /* XCRemoteSwiftPackageReference "countly-sdk-ios" */;

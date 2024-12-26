@@ -28,7 +28,15 @@ struct ExtraInfoEntryView: View {
     var entry: InfoEntry
     var body: some View {
         if let url = entry.url {
-            WebPageButton(url: url, title: entry.title, icon: entry.image)
+            if let image = entry.image {
+                if let mappedIcon = ExtraInfoEntryView.Constants.iconMapping[image] {
+                    WebPageButton(url: url, title: entry.title, icon: mappedIcon)
+                } else {
+                    WebPageButton(url: url, title: entry.title, image: entry.image)
+                }
+            } else {
+                WebPageButton(url: url, title: entry.title)
+            }
         } else if let html = entry.html {
             NavigationLink(
                 destination: {
@@ -55,26 +63,11 @@ struct ExtraInfoEntryView: View {
         }
     }
 
-}
-
-struct WebPageButton: View {
-    @Environment(\.openURL) var openURL
-    var url: String
-    var title: String
-    var icon: String?
-
-    var body: some View {
-        Button(action: {
-            openURL(URL(string: url)!)
-        }) {
-            HStack {
-                ExtraInfoLabel(title, icon)
-                Spacer()
-                Image(systemName: "arrow.up.forward.app")
-            }
-            .foregroundStyle(Color(UIColor.label))
-        }
-
+    struct Constants {
+        static let iconMapping: [String: String] = [
+            "info_heart": "heart.fill",
+            "info_academiccalendar": "calendar",
+        ]
     }
 }
 
@@ -89,7 +82,7 @@ struct ExtraInfoLabel: View {
 
     var body: some View {
         if let icon = icon {
-            if let mappedIcon = Constants.iconMapping[icon] {
+            if let mappedIcon = ExtraInfoEntryView.Constants.iconMapping[icon] {
                 Label(title, systemImage: mappedIcon)
             } else {
                 Label(
@@ -105,13 +98,9 @@ struct ExtraInfoLabel: View {
             Text(title)
         }
     }
-
+    
     struct Constants {
         static let iconSize: CGFloat = 24
-        static let iconMapping: [String: String] = [
-            "info_heart": "heart.fill",
-            "info_academiccalendar": "calendar",
-        ]
     }
 }
 

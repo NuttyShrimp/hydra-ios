@@ -6,9 +6,9 @@
 //
 
 enum MainTabs: String, Hashable {
-    case events, resto, info, settings
+    case events, resto, info, settings, zeus
 
-    var icon: String {
+    var icon: String? {
         switch self {
         case .events:
             return "newspaper.fill"
@@ -18,6 +18,17 @@ enum MainTabs: String, Hashable {
             return "info"
         case .settings:
             return "gear"
+        default:
+            return nil
+        }
+    }
+
+    var image: String? {
+        switch self {
+        case .zeus:
+            return "ZeusLogo"
+        default:
+            return nil
         }
     }
 
@@ -29,6 +40,8 @@ enum MainTabs: String, Hashable {
             return "Resto"
         case .info:
             return "Info"
+        case .zeus:
+            return "Zeus"
         case .settings:
             return "Instellingen"
         }

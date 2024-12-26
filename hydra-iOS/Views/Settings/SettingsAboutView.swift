@@ -6,10 +6,64 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct SettingsAboutView: View {
+    @Environment(\.openURL) var openURL
+    @AppStorage("zeusModeEnabled") var zeusMode = false
+    @State private var zeusClickCount = 0
+    @State private var showZeusToast = false
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            Section {
+                Text(
+                    "Version: \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")"
+                )
+                WebPageButton(
+                    url: "https://github.com/NuttyShrimp/hydra-ios/releases", title: "Changelog")
+                WebPageButton(
+                    url: "https://github.com/NuttyShrimp/hydra-ios/issues/new", title: "Feedback")
+            }
+            Section {
+                Button(
+                    action: {
+                        if zeusMode {
+                            openURL(URL(string: "https://zeus.ugent.be")!)
+                            return
+                        }
+                        zeusClickCount += 1
+                        showZeusToast = true
+                        if (zeusClickCount == 3) {
+                            zeusMode = true
+                            return
+                        }
+                    },
+                    label: {
+                        Label(title: {
+                            Text("Made by Zeus WPI")
+                        }, icon: {
+                            Image("ZeusLogo")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: Constants.logoSize, height: Constants.logoSize)
+                        })
+                    })
+                WebPageButton(url: "https://dsa.ugent.be", title: "In samenwerking met Dienst Studentenactiviteiten", image: "UgentLogo", iconSize: Constants.logoSize)
+                WebPageButton(url: "https://gentsestudentenraad.be", title: "Met de steun van de Gentse Studentenraad", image: "GsrLogo", iconSize: Constants.logoSize)
+            }
+        }
+        .toast(isPresenting: $showZeusToast){
+            if zeusClickCount == 3 {
+                AlertToast(displayMode: .hud, type: .complete(.green), title: "Zeus mode ingeschakeld")
+            } else {
+                AlertToast(displayMode: .hud, type: .regular, title: "Nog \(3 - zeusClickCount) keer klikken voor Zeus mode in te schakelen")
+            }
+        }
+    }
+    
+    struct Constants {
+        static let logoSize: CGFloat = 50
     }
 }
 

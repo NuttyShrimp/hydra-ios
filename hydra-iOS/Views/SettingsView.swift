@@ -58,6 +58,11 @@ struct SettingsView: View {
                         )
                     }
                 }
+                NavigationLink(destination: {
+                    SettingsAboutView()
+                }, label: {
+                    Label("Over deze app", systemImage: "info.circle")
+                })
                 #if DEBUG
                     Button(
                         action: {
