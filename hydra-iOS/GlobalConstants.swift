@@ -14,6 +14,7 @@ struct GlobalConstants {
     public static let ZEUS_V2 = "https://hydra.ugent.be/api/2.0";
     
     public static let LIBRARY = "https://widgets.lib.ugent.be";
+    public static let KELDER = "https://kelder.zeus.ugent.be"
     
     struct Priority {
         static let FEED_SPECIAL_OFFSET = 10;
@@ -26,5 +27,12 @@ struct GlobalConstants {
         static let preferredResto = "preferredResto"
         static let onboarding = "finishedOnboarding"
         static let allergens = "showAllergens"
+        struct Zeus {
+            static let onboarding = "zeusOnboarding"
+            static let tab = "zeusTabApiKey"
+            static let tap = "zeusTapApiKey"
+            static let username = "zeusUsername"
+            static let door = "zeusDoorApiKey"
+        }
     }
 }

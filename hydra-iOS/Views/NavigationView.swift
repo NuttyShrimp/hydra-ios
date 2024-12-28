@@ -26,6 +26,8 @@ struct NavigationView: View {
                             .tag(MainTabs.resto)
                         ExtraInfoView(info: info)
                             .tag(MainTabs.info)
+                        ZeusModeView()
+                            .tag(MainTabs.zeus)
                         SettingsView(restos: restos).tag(MainTabs.settings)
                             .toolbar(.hidden, for: .tabBar)
                     }
