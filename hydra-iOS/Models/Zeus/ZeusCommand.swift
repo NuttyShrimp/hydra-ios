@@ -5,10 +5,12 @@
 //  Created by Jan Lecoutere on 27/12/2024.
 //
 
+import Foundation
+
 enum ZeusCommand: Hashable {
     case cammie(CammieCommand)
     case message
-    
+
     var icon: String {
         switch self {
         case .cammie(let command):
@@ -17,11 +19,12 @@ enum ZeusCommand: Hashable {
             return "message"
         }
     }
-    
+
     var label: String {
         switch self {
         case .cammie(let command):
-            return command.rawValue.replacing(#/([A-Z])/#) {match in " \(match.output.0)"}.capitalized
+            return command.rawValue.replacing(#/([A-Z])/#) { match in " \(match.output.0)" }
+                .capitalized
         case .message:
             return "Message"
         }
@@ -93,8 +96,20 @@ enum CammieCommand: String, ZeusCommandable, Hashable {
 
         return (x, y)
     }
-    
+
     func intoCommand() -> ZeusCommand {
         ZeusCommand.cammie(self)
+    }
+
+    func moveCamera() async throws {
+        let coords = self.coordinate
+        var url = URL(string: "\(GlobalConstants.KELDER)/webcam/cgi/ptdc.cgi")!
+        url.append(queryItems: [
+            URLQueryItem(name: "command", value: self.command),
+            URLQueryItem(name: "posX", value: String(coords.0)),
+            URLQueryItem(name: "posY", value: String(coords.1)),
+        ])
+
+        let _ = try await URLSession.shared.data(from: url)
     }
 }

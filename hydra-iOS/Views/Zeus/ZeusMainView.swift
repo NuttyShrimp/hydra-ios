@@ -27,20 +27,28 @@ struct ZeusMainView: View {
     var actionBtns: some View {
         HStack(spacing: 30) {
             if zeus.hasDoorControl() {
-                Button(
-                    "", systemImage: "lock.open",
-                    action: {
-                        print("unlock")
+                Button {
+                    Task {
+                        Task {
+                            await zeus.controlDoor(.close)
+                        }
                     }
-                ).labelStyle(.iconOnly)
-                    .buttonStyle(.bordered)
-                Button(
-                    "", systemImage: "lock",
-                    action: {
-                        print("lock")
+                } label: {
+                    Label("", systemImage: "lock.open")
+                        .labelStyle(.iconOnly)
+                }
+                .buttonStyle(.bordered)
+
+                Button {
+                    Task {
+                        Task {
+                            await zeus.controlDoor(.open)
+                        }
                     }
-                )
-                .labelStyle(.iconOnly)
+                } label: {
+                    Label("", systemImage: "lock")
+                        .labelStyle(.iconOnly)
+                }
                 .buttonStyle(.bordered)
             }
             NavigationLink(

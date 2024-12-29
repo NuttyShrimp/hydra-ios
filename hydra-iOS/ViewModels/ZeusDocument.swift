@@ -7,46 +7,44 @@
 
 import Foundation
 
+typealias ZeusDoorCommand = ZeusDoorHandler.Command
+
 class ZeusDocument: ObservableObject {
+    @Published private var door = ZeusDoorHandler()
     @Published var showMessageAlert = false
-    @Published private var username = UserDefaults.standard.string(forKey: GlobalConstants.StorageKeys.Zeus.username) {
-        didSet {
-            UserDefaults.standard.set(username, forKey: GlobalConstants.StorageKeys.Zeus.username)
-        }
-    }
-    @Published private var doorToken = UserDefaults.standard.string(forKey: GlobalConstants.StorageKeys.Zeus.door) {
-        didSet {
-            UserDefaults.standard.set(doorToken, forKey: GlobalConstants.StorageKeys.Zeus.door)
-        }
-    }
-    
+
     func hasDoorControl() -> Bool {
-        return doorToken != nil
+        return door.hasDoorToken()
     }
 
     func executeCommand(_ command: ZeusCommand) {
         switch command {
         case .cammie(let command):
-            moveCamera(direction: command)
+            Task {
+                do {
+                    try await command.moveCamera()
+                } catch {
+                    debugPrint("Failed to move camera: \(error)")
+                }
+            }
         case .message:
             showMessageAlert = true
         }
     }
 
     @MainActor
-    func sendKelderMessage(_ message: String)  {
+    func sendKelderMessage(_ message: String) {
         Task {
             do {
-                debugPrint("Sending message to kelder: \(message)")
                 let url = URL(string: "\(GlobalConstants.KELDER)/messages/")!
                 var request = URLRequest(url: url)
                 request.setValue("text/plain", forHTTPHeaderField: "Content-Type")
                 request.httpMethod = "POST"
                 request.httpBody = message.data(using: .utf8)
-                if let username = self.username {
+                if let username = ZeusConfig.sharedInstance.username {
                     request.setValue(username, forHTTPHeaderField: "X-Username")
                 }
-                    
+
                 let _ = try await URLSession.shared.data(for: request)
             } catch {
                 debugPrint("Failed to send message to kelder: \(error)")
@@ -54,21 +52,15 @@ class ZeusDocument: ObservableObject {
         }
     }
 
-    private func moveCamera(direction: CammieCommand) {
-        Task {
-            do {
-                let coords = direction.coordinate
-                var url = URL(string: "\(GlobalConstants.KELDER)/webcam/cgi/ptdc.cgi")!
-                url.append(queryItems: [
-                    URLQueryItem(name: "command", value: direction.command),
-                    URLQueryItem(name: "posX", value: String(coords.0)),
-                    URLQueryItem(name: "posY", value: String(coords.1)),
-                ])
+    @MainActor
+    func controlDoor(_ cmd: ZeusDoorCommand) async {
+        do {
+            try await door.execute(cmd)
+        } catch {
+            debugPrint("Failed to execute door command: \(error)")
+        }
+    }
 
-                let _ = try await URLSession.shared.data(from: url)
-            } catch {
-                debugPrint("Failed to send cammie command: \(error)")
-            }
         }
     }
 }

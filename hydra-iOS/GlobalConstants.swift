@@ -15,6 +15,7 @@ struct GlobalConstants {
     
     public static let LIBRARY = "https://widgets.lib.ugent.be";
     public static let KELDER = "https://kelder.zeus.ugent.be"
+    public static let MATTERMORE = "https://mattermore.zeus.gent"
     
     struct Priority {
         static let FEED_SPECIAL_OFFSET = 10;
