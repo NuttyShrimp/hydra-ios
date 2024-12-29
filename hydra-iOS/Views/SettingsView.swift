@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var restos: RestoDocument
     @EnvironmentObject var analytics: AnalyticsDocument
+    @AppStorage(GlobalConstants.StorageKeys.Zeus.enabled) var zeusMode = false
     @AppStorage(GlobalConstants.StorageKeys.preferredResto) private var preferredResto = ""
     @AppStorage(GlobalConstants.StorageKeys.allergens) private var showAllergens: Bool = false {
         didSet {
@@ -57,6 +58,13 @@ struct SettingsView: View {
                             "Send logs and other useful (anonymous) informatie if the app crashes, allowing us to fix the issue as fast as possible."
                         )
                     }
+                }
+                if zeusMode {
+                    NavigationLink(destination: {
+                        ZeusInputConfigView()
+                    }, label: {
+                        Label("Zeus instellingen", systemImage: "key")
+                    })
                 }
                 NavigationLink(destination: {
                     SettingsAboutView()

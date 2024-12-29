@@ -28,6 +28,7 @@ struct GlobalConstants {
         static let onboarding = "finishedOnboarding"
         static let allergens = "showAllergens"
         struct Zeus {
+            static let enabled = "zeusModeEnabled"
             static let onboarding = "zeusOnboarding"
             static let tab = "zeusTabApiKey"
             static let tap = "zeusTapApiKey"
