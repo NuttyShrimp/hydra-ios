@@ -11,6 +11,7 @@ typealias ZeusDoorCommand = ZeusDoorHandler.Command
 
 class ZeusDocument: ObservableObject {
     @Published private var door = ZeusDoorHandler()
+    @Published private(set) var user: CombinedUser? = nil
     @Published var showMessageAlert = false
 
     func hasDoorControl() -> Bool {
@@ -61,6 +62,32 @@ class ZeusDocument: ObservableObject {
         }
     }
 
+    @MainActor
+    func loadUser() async {
+        do {
+            let tapUser = try await TapUserRequest.fetch()
+            let tabUser = try await TabUserRequest.fetch()
+            user = CombinedUser(
+                id: tapUser.id,
+                name: tapUser.name,
+                balance: tabUser.balance,
+                orders: tapUser.orderCount,
+                favouriteOrder: tapUser.favorite)
+
+        } catch {
+            debugPrint("Failed to load user: \(error)")
+        }
+    }
+
+    struct CombinedUser {
+        var id: Int
+        var name: String
+        var balance: Int
+        var orders: Int
+        var favouriteOrder: Int
+
+        func balanceDecimal() -> Double {
+            return Double(balance) / 100
         }
     }
 }

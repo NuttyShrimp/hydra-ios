@@ -14,16 +14,21 @@ struct ZeusMainView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text("Your tab balance:")
-                Text("Ƶ 100.00")
-                    .font(.system(size: 30, weight: .semibold))
+                if let user = zeus.user {
+                    Text("Your Tab balance is:")
+                    Text("Ƶ \(String(format: "%.2f", user.balanceDecimal()))")
+                        .font(.system(size: 30, weight: .semibold))
+                }
                 actionBtns
                 Spacer()
             }
             .padding()
         }
+        .task {
+            await zeus.loadUser()
+        }
     }
-    
+
     var actionBtns: some View {
         HStack(spacing: 30) {
             if zeus.hasDoorControl() {

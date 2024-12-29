@@ -14,6 +14,9 @@ struct GlobalConstants {
     public static let ZEUS_V2 = "https://hydra.ugent.be/api/2.0";
     
     public static let LIBRARY = "https://widgets.lib.ugent.be";
+    
+    public static let TAP = "https://tap.zeus.gent";
+    public static let TAB = "https://tab.zeus.gent/api/v1";
     public static let KELDER = "https://kelder.zeus.ugent.be"
     public static let MATTERMORE = "https://mattermore.zeus.gent"
     
