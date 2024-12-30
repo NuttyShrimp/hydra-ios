@@ -27,20 +27,3 @@ struct InfoEntry: Decodable, Identifiable {
         return String(data: data, encoding: .utf8) ?? ""
     }
 }
-
-struct InfoHolder {
-    var entries: [InfoEntry] = []
-
-    @MainActor
-    mutating func load() async throws {
-        guard
-            let url = URL(
-                string: "\(GlobalConstants.ZEUS_V2)/info/info-content.json")
-        else { return }
-
-        let (data, _) = try await URLSession.shared.data(from: url)
-        
-        entries = try CustomDecoder().decode(
-            [InfoEntry].self, from: data)
-    }
-}

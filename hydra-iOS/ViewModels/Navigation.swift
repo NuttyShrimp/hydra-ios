@@ -8,9 +8,8 @@
 import Foundation
 import Countly
 
-@MainActor
 class Navigation: ObservableObject {
-    @MainActor @Published private var selectedTab: MainTabs = .events
+    @Published private var selectedTab: MainTabs = .events
     
     init() {
         Countly.sharedInstance().views().startView(selectedTab.rawValue)
@@ -25,6 +24,7 @@ class Navigation: ObservableObject {
         }
     }
     
+    @MainActor
     func selectTab(_ tab: MainTabs) {
         Countly.sharedInstance().views().stopView(withName: selectedTab.rawValue)
         Countly.sharedInstance().views().startView(tab.rawValue)

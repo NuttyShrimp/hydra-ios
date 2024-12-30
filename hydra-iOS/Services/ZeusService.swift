@@ -139,4 +139,15 @@ struct ZeusService {
         }
     }
 
+    func loadInfo() async throws -> [InfoEntry] {
+        do {
+            return try await APIService.fetch([InfoEntry].self, url: URL(string: "\(GlobalConstants.ZEUS_V2)/info/info-content.json"))
+        } catch {
+            if let error = error as? APIError {
+                throw HydraError.networkError(error)
+            } else {
+                throw HydraError.runtimeError("Failed to fetch extra info", error)
+            }
+        }
+    }
 }

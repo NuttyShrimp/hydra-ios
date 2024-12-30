@@ -8,21 +8,23 @@
 import Foundation
 
 class ExtraInfoDocument: ObservableObject {
-    @Published private var infoApi = InfoHolder()
+    @Published var info: HydraDataFetch<[InfoEntry]> = .fetching
     
-    var entries: [InfoEntry] {
-        get {
-            infoApi.entries
-        }
-        set {}
-    }
+    private let zeusService = ZeusService()
     
     @MainActor
     func loadInfo() async {
+        info = .fetching
         do {
-            try await infoApi.load()
+            let data = try await zeusService.loadInfo()
+            info = .success(data)
         } catch {
-            debugPrint("Failed to load ExtraInfo \(error)")
+            if let hydraError = error as? HydraError {
+                info = .failure(hydraError)
+            } else {
+                info = .failure(
+                    HydraError.runtimeError("Failed to load info", error))
+            }
         }
     }
 }

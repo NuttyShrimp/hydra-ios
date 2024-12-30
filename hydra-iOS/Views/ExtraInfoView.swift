@@ -12,8 +12,10 @@ struct ExtraInfoView: View {
 
     var body: some View {
         NavigationStack {
-            List(info.entries) { entry in
-                ExtraInfoEntryView(entry: entry)
+            DataLoaderView(info.info, fetcher: info.loadInfo) { entries in
+                List(entries) { entry in
+                    ExtraInfoEntryView(entry: entry)
+                }
             }
         }
         .navigationTitle("Info")
@@ -37,7 +39,7 @@ struct ExtraInfoEntryView: View {
             } else {
                 WebPageButton(url: url, title: entry.title)
             }
-        } else if let _ = entry.html {
+        } else if entry.html != nil {
             NavigationLink(
                 destination: {
                     ExtraInfoWebView(entry: entry)
@@ -98,7 +100,7 @@ struct ExtraInfoLabel: View {
             Text(title)
         }
     }
-    
+
     struct Constants {
         static let iconSize: CGFloat = 24
     }
@@ -106,9 +108,9 @@ struct ExtraInfoLabel: View {
 
 struct ExtraInfoWebView: View {
     var entry: InfoEntry
-    @State var isLoading: Bool = true;
+    @State var isLoading: Bool = true
     @State var html: String = ""
-    
+
     var body: some View {
         ZStack {
             if isLoading {
@@ -118,7 +120,7 @@ struct ExtraInfoWebView: View {
             }
         }
         .task {
-            do  {
+            do {
                 isLoading = true
                 html = try await entry.loadWebPage()
                 isLoading = false

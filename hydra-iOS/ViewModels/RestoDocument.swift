@@ -81,7 +81,7 @@ class RestoDocument: ObservableObject {
             }
 
             if locs.count > 0 {
-                try await loadMeals()
+                await loadMeals()
             }
         } catch {
             if let hydraError = error as? HydraError {
@@ -97,11 +97,7 @@ class RestoDocument: ObservableObject {
     func selectResto(_ index: Int) {
         selectedResto = index
         Task {
-            do {
-                try await loadMeals()
-            } catch {
-                debugPrint("Failed to load meals for resto \(error)")
-            }
+            await loadMeals()
         }
     }
     
@@ -109,6 +105,7 @@ class RestoDocument: ObservableObject {
     func loadAllergens() async {
         do {
             let allergens = try await zeusService.loadAllergens()
+            self.allergens = .success(allergens)
         } catch {
             if let hydraError = error as? HydraError {
                 additionalMenuItems = .failure(hydraError)
@@ -141,7 +138,7 @@ class RestoDocument: ObservableObject {
     }
 
     @MainActor
-    private func loadMeals() async throws {
+    private func loadMeals() async {
         selectedRestoMenus = .fetching
         do {
             guard let endpoint = selectedRestoLocation?.endpoint else {
