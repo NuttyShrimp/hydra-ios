@@ -10,37 +10,44 @@ import Foundation
 private let DAY: TimeInterval = 24 * 60 * 60
 
 class NewsViewModel: ObservableObject {
-    // TODO: Make eventHolder protocol to use loops for functions
-    @Published private var dsaEventHolder = DSAEventHolder();
-    @Published private var ugentEventHolder = UGentNewsEventHolder();
-    @Published private var specialEventHolder = SpecialEventHolder();
-    var isLoading = true
-    
-    var events: [any Eventable] {
-        // TODO: push events to the front if they happen in the future but in less than 24h
-        return ((dsaEventHolder.events as [any Eventable]) + (ugentEventHolder.events as [any Eventable]) + (specialEventHolder.events as [any Eventable]))
-            .sorted {
-                $0.priority() < $1.priority()
-            }
-    }
+    @Published var events: HydraDataFetch<[any Eventable]> = .fetching
+
+    private let dsaService = DSAService()
+    private let ugentService = ZeusService.Ugent()
+    private let specialService = ZeusService.SpecialEvents()
 
     @MainActor
     func loadEvents() async {
-        do {
-            try await dsaEventHolder.loadEvents()
-        } catch {
-            debugPrint("Failed to load DSA Events: \(error)")
+        events = .fetching
+        await loadEvents(service: dsaService)
+        await loadEvents(service: ugentService)
+        await loadEvents(service: specialService)
+        if case .success(let data) = events {
+            events = .success(data.sorted(by: { $0.priority() < $1.priority() }))
         }
-        do {
-            try await ugentEventHolder.loadEvents()
-        } catch {
-            debugPrint("Failed to load Ugent news events: \(error)")
-        }
-        do {
-            try await specialEventHolder.loadEvents()
-        } catch {
-            debugPrint("Failed to load special events: \(error)")
-        }
-        isLoading = false
     }
+
+    @MainActor
+    private func loadEvents(service: any EventService) async {
+        // Note: this will show no events on the home screen when 1 of the API calls fails, it is a tradeoff I am willing to make
+        if case .failure = events {
+            return
+        }
+        do {
+            let data = try await service.fetchEvents()
+            if case .success(let currentData) = events {
+                events = .success(currentData + data)
+            } else {
+                events = .success(data)
+            }
+        } catch {
+            if let hydraError = error as? HydraError {
+                events = .failure(hydraError)
+            } else {
+                events = .failure(
+                    HydraError.runtimeError("Failed to load events", error))
+            }
+        }
+    }
+
 }
