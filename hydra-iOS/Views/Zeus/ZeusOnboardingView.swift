@@ -31,6 +31,7 @@ struct ZeusOnboardingView: View {
             .padding()
         }
         .background(Color(.secondarySystemBackground))
+        .padding(.bottom, 15)
     }
 }
 
