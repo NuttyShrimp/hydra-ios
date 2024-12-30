@@ -12,7 +12,8 @@ struct NavigationView: View {
     @StateObject var dsa = DSA()
     @StateObject var restos = RestoDocument()
     @StateObject var info = ExtraInfoDocument()
-    
+    @AppStorage(GlobalConstants.StorageKeys.Zeus.enabled) var zeusMode = false
+
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
@@ -26,8 +27,10 @@ struct NavigationView: View {
                             .tag(MainTabs.resto)
                         ExtraInfoView(info: info)
                             .tag(MainTabs.info)
-                        ZeusModeView()
-                            .tag(MainTabs.zeus)
+                        if zeusMode {
+                            ZeusModeView()
+                                .tag(MainTabs.zeus)
+                        }
                         SettingsView(restos: restos).tag(MainTabs.settings)
                             .toolbar(.hidden, for: .tabBar)
                     }
