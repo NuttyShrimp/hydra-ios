@@ -24,46 +24,42 @@ enum RestoNavigationOptions {
 
 struct RestoView: View {
     @ObservedObject var restos: RestoDocument
-    @StateObject var additionalResto = AdditionalResto()
 
     var body: some View {
-        if restos.isLoading {
-            ProgressView()
-                .navigationTitle("Resto's")
-                .navigationBarTitleDisplayMode(.inline)
-                .task {
-                    await restos.loadAvailableRestos()
-                }
-        } else {
-            NavigationStack {
+        NavigationStack {
+            DataLoaderView(restos.restoLocations, fetcher: restos.loadAvailableRestos) { _ in
                 RestoMenuView(restos: restos)
-                    .navigationTitle(restos.selectedRestoMeta?.name ?? "Resto's")
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            selectionMenu
-                        }
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            otherMenu
-                        }
-                    }
             }
-
+            .navigationTitle(restos.selectedRestoLocation?.name ?? "Resto's")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    selectionMenu
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    otherMenu
+                }
+            }
         }
+        .navigationTitle("Resto's")
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     var selectionMenu: some View {
         Menu(
             content: {
-                ForEach(restos.restoMetas.indices, id: \.self) { index in
-                    Button(action: {
-                        restos.selectResto(index)
-                    }) {
-                        Text(restos.restoMetas[index].name)
+                if case .success(let data) = restos.restoLocations {
+                    ForEach(data.indices, id: \.self) { index in
+                        Button(action: {
+                            restos.selectResto(index)
+                        }) {
+                            Text(data[index].name)
+                        }
                     }
+                } else {
+                    EmptyView()
                 }
             }, label: { Image(systemName: "mappin") })
-
     }
 
     var otherMenu: some View {
@@ -96,7 +92,7 @@ struct RestoView: View {
             ZStack {
                 switch option {
                 case .extraMenus:
-                    OtherFoodMenuView(additionalResto: additionalResto)
+                    OtherFoodMenuView(resto: restos)
                 case .locations:
                     RestoLocations(restos: restos)
                 }

@@ -20,78 +20,90 @@ struct SettingsView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                Section("Restaurant") {
-                    Picker("Favoriet", selection: $preferredResto) {
-                        ForEach(restos.restoMetas) { resto in
-                            Text(resto.name)
-                                .tag(resto.endpoint!)
+            DataLoaderView(restos.restoLocations, fetcher: restos.loadAvailableRestos) {
+                restaurants in
+                List {
+                    Section("Restaurant") {
+                        Picker("Favoriet", selection: $preferredResto) {
+                            ForEach(restaurants) { resto in
+                                Text(resto.name)
+                                    .tag(resto.endpoint!)
+                            }
+                        }
+                        Toggle(
+                            isOn: $showAllergens
+                        ) {
+                            Text("Toon allergenen")
+                            Text("Toon de allergenen in de menu's van de restaurants.")
+                            HStack {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                Text(
+                                    "Informatie over alleregenen wordt op een best-effort manier voorzien. Fouten zijn dus mogelijk!"
+                                )
+                            }
                         }
                     }
-                    Toggle(
-                        isOn: $showAllergens
-                    ) {
-                        Text("Toon allergenen")
-                        Text("Toon de allergenen in de menu's van de restaurants.")
-                        HStack {
-                            Image(systemName: "exclamationmark.triangle.fill")
+                    Section("Data gebruik") {
+                        Toggle(
+                            isOn: $analytics.analyticsEnabled
+                        ) {
+                            Text("Analytics")
                             Text(
-                                "Informatie over alleregenen wordt op een best-effort manier voorzien. Fouten zijn dus mogelijk!"
+                                "Allow Hydra to collect anonymouse user statistics. We use this to know how many people Hydra & for what they use it."
+                            )
+                        }
+                        Toggle(
+                            isOn: $analytics.crashlyticsEnabled
+                        ) {
+                            Text("Crash reporting")
+                            Text(
+                                "Send logs and other useful (anonymous) informatie if the app crashes, allowing us to fix the issue as fast as possible."
                             )
                         }
                     }
-                }
-                Section("Data gebruik") {
-                    Toggle(
-                        isOn: $analytics.analyticsEnabled
-                    ) {
-                        Text("Analytics")
-                        Text(
-                            "Allow Hydra to collect anonymouse user statistics. We use this to know how many people Hydra & for what they use it."
-                        )
+                    if zeusMode {
+                        NavigationLink(
+                            destination: {
+                                ZeusInputConfigView()
+                            },
+                            label: {
+                                Label("Zeus instellingen", systemImage: "key")
+                            })
                     }
-                    Toggle(
-                        isOn: $analytics.crashlyticsEnabled
-                    ) {
-                        Text("Crash reporting")
-                        Text(
-                            "Send logs and other useful (anonymous) informatie if the app crashes, allowing us to fix the issue as fast as possible."
-                        )
-                    }
-                }
-                if zeusMode {
-                    NavigationLink(destination: {
-                        ZeusInputConfigView()
-                    }, label: {
-                        Label("Zeus instellingen", systemImage: "key")
-                    })
-                }
-                NavigationLink(destination: {
-                    SettingsAboutView()
-                }, label: {
-                    Label("Over deze app", systemImage: "info.circle")
-                })
-                #if DEBUG
-                    Button(
-                        action: {
-                            UserDefaults.standard.removeObject(forKey: GlobalConstants.StorageKeys.onboarding)
+                    NavigationLink(
+                        destination: {
+                            SettingsAboutView()
                         },
                         label: {
-                            Label("Reset onboarding", systemImage: "arrow.clockwise")
+                            Label("Over deze app", systemImage: "info.circle")
                         })
-                #endif
+                    #if DEBUG
+                        Button(
+                            action: {
+                                UserDefaults.standard.removeObject(
+                                    forKey: GlobalConstants.StorageKeys.onboarding)
+                            },
+                            label: {
+                                Label("Reset onboarding", systemImage: "arrow.clockwise")
+                            })
+                    #endif
+                }
+                .onAppear {
+                    guard case .success(let restaurants) = restos.restoLocations else {
+                        return
+                    }
+                    if preferredResto.isEmpty && restaurants.count > 0 {
+                        if let endpoint = restaurants.first(where: { $0.endpoint != nil }
+                        )?
+                        .endpoint {
+                            preferredResto = endpoint
+                        }
+                    }
+                }
             }
         }
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.inline)
-        .task {
-            await restos.loadAvailableRestos()
-            if preferredResto.isEmpty && restos.restoMetas.count > 0 {
-                if let endpoint = restos.restoMetas.first(where: { $0.endpoint != nil })?.endpoint {
-                    preferredResto = endpoint
-                }
-            }
-        }
     }
 }
 

@@ -8,27 +8,28 @@
 import SwiftUI
 
 struct OtherFoodMenuView: View {
-    @ObservedObject var additionalResto: AdditionalResto
+    @ObservedObject var resto: RestoDocument
 
     var body: some View {
         VStack(spacing: 5) {
-            List {
-                ForEach(additionalResto.availableItems.elements, id: \.key) { key, value in
-                    if value.count > 0 {
-                        OtherMenuSectionView(title: key, menuItems: value)
+            DataLoaderView(resto.allergens, fetcher: resto.loadAllergens) { _ in
+                DataLoaderView(resto.additionalMenuItems, fetcher: resto.loadAdditionalMenuItems) { items in
+                List {
+                    ForEach(items.elements, id: \.key) { key, value in
+                        if value.count > 0 {
+                            OtherMenuSectionView(title: key, menuItems: value)
+                        }
                     }
                 }
+                }
             }
-        }
-        .task {
-            await additionalResto.loadAllInfo()
         }
     }
 }
 
 struct OtherMenuSectionView: View {
     var title: String
-    var menuItems: [OtherMenuItem]
+    var menuItems: [RestoOtherMenuItem]
 
     var body: some View {
         Section(header: Text(title).font(.system(size: 16).bold())) {
@@ -40,7 +41,7 @@ struct OtherMenuSectionView: View {
 }
 
 struct OtherMenuItemView: View {
-    var menuItem: OtherMenuItem
+    var menuItem: RestoOtherMenuItem
     @State var isExpanded: Bool = false
 
     var body: some View {
@@ -70,5 +71,5 @@ struct OtherMenuItemView: View {
 }
 
 #Preview {
-    OtherFoodMenuView(additionalResto: AdditionalResto())
+    OtherFoodMenuView(resto: RestoDocument())
 }

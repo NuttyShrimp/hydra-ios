@@ -5,7 +5,7 @@
 //  Created by Jan Lecoutere on 12/12/2024.
 //
 
-struct OtherMenuItem: Identifiable, Decodable {
+struct RestoOtherMenuItem: Identifiable, Decodable {
     var name: String
     var price: String
     var description: String?

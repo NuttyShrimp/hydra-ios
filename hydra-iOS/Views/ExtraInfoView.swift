@@ -37,7 +37,7 @@ struct ExtraInfoEntryView: View {
             } else {
                 WebPageButton(url: url, title: entry.title)
             }
-        } else if let html = entry.html {
+        } else if let _ = entry.html {
             NavigationLink(
                 destination: {
                     ExtraInfoWebView(entry: entry)

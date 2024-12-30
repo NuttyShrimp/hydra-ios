@@ -11,29 +11,18 @@ struct RestoSandwich: Decodable, Identifiable {
     var name: String
     var price: String
     var ingredients: [String]
-    
+
     var id: String { name }
 
     enum CodingKeys: String, CodingKey {
         case name, ingredients
         case price = "priceMedium"
     }
-}
 
-struct RestoSandwichHolder {
-    var sandwiches: [RestoSandwich] = []
-
-    @MainActor
-    mutating func load() async throws {
-        guard
-            let url = URL(
-                string: "\(GlobalConstants.ZEUS_V2)/resto/sandwiches.json")
-        else { return }
-
-        let (data, _) = try await URLSession.shared.data(from: url)
-        
-        sandwiches = try CustomDecoder().decode(
-            [RestoSandwich].self, from: data)
+    func intoOtherMenuItem(allergens: [String]?) -> RestoOtherMenuItem {
+        RestoOtherMenuItem(
+            name: name, price: price,
+            description: ingredients.joined(separator: ", "),
+            allergens: allergens)
     }
 }
-

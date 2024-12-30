@@ -8,7 +8,7 @@
 import Foundation
 
 struct APIService {
-    static func fetch<T: Decodable>(_ type: T.Type, url: URL?) async throws -> T {
+    static func fetch<T: Decodable>(_ type: T.Type, url: URL?, decoder: JSONDecoder = CustomDecoder()) async throws -> T {
         guard let url = url else {
             throw APIError.badURL
         }
@@ -22,7 +22,7 @@ struct APIService {
             }
 
             do {
-                let result = try CustomDecoder().decode(type, from: data)
+                let result = try decoder.decode(type, from: data)
                 return result
             } catch {
                 throw APIError.parsing(error as? DecodingError)

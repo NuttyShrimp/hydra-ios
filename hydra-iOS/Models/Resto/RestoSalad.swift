@@ -11,21 +11,10 @@ struct RestoSalad: Decodable {
     var name: String
     var description: String
     var price: String
-}
 
-struct RestoSaladHolder {
-    var salads: [RestoSalad] = []
-
-    @MainActor
-    mutating func load() async throws {
-        guard
-            let url = URL(
-                string: "\(GlobalConstants.ZEUS_V2)/resto/salads.json")
-        else { return }
-
-        let (data, _) = try await URLSession.shared.data(from: url)
-        
-        salads = try CustomDecoder().decode(
-            [RestoSalad].self, from: data)
+    func intoOtherMenuItem(allergens: [String]?) -> RestoOtherMenuItem {
+        RestoOtherMenuItem(
+            name: name, price: price, description: description,
+            allergens: allergens)
     }
 }

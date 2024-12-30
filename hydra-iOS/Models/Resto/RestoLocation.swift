@@ -1,5 +1,5 @@
 //
-//  RestoMeta.swift
+//  RestoLocation.swift
 //  hydra-iOS
 //
 //  Created by Jan Lecoutere on 10/11/2024.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RestoMeta: Decodable, Identifiable {
+struct RestoLocation: Decodable, Identifiable {
     let name: String
     let address: String
     let latitude: Double
@@ -20,7 +20,7 @@ struct RestoMeta: Decodable, Identifiable {
     }
 }
 
-struct RestoMetaResponse: Decodable {
-    var locations: [RestoMeta]
+struct RestoLocationResponse: Decodable {
+    var locations: [RestoLocation]
 }
 

@@ -19,8 +19,7 @@ struct RestoMenuView: View {
             )
 
             TabView(selection: $restos.selectedDate) {
-                let tabs = $restos.mealBarTabs
-                ForEach(tabs.indices, id: \.self) { index in
+                ForEach($restos.mealBarTabs.indices, id: \.self) { index in
                     RestoMenuTabItemView(index: index, restos: restos)
                 }
             }
