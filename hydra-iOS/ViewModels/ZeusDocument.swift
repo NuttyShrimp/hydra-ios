@@ -7,15 +7,17 @@
 
 import Foundation
 
-typealias ZeusDoorCommand = ZeusDoorHandler.Command
-
 class ZeusDocument: ObservableObject {
-    @Published private var door = ZeusDoorHandler()
-    @Published private(set) var user: CombinedUser? = nil
+    @Published var user: HydraDataFetch<CombinedUser?> = .fetching
+    @Published var doorState: HydraDataFetch<Any?> = .idle
+    @Published var messageState: HydraDataFetch<Any?> = .idle
     @Published var showMessageAlert = false
 
+    let mattermoreService = MattermoreService()
+    let kelderService = KelderService()
+    
     func hasDoorControl() -> Bool {
-        return door.hasDoorToken()
+        return ZeusConfig.sharedInstance.doorToken != nil
     }
 
     func executeCommand(_ command: ZeusCommand) {
@@ -34,31 +36,36 @@ class ZeusDocument: ObservableObject {
     }
 
     @MainActor
-    func sendKelderMessage(_ message: String) {
-        Task {
-            do {
-                let url = URL(string: "\(GlobalConstants.KELDER)/messages/")!
-                var request = URLRequest(url: url)
-                request.setValue("text/plain", forHTTPHeaderField: "Content-Type")
-                request.httpMethod = "POST"
-                request.httpBody = message.data(using: .utf8)
-                if let username = ZeusConfig.sharedInstance.username {
-                    request.setValue(username, forHTTPHeaderField: "X-Username")
-                }
-
-                let _ = try await URLSession.shared.data(for: request)
-            } catch {
-                debugPrint("Failed to send message to kelder: \(error)")
+    func sendKelderMessage(_ message: String) async {
+        messageState = .fetching
+        do {
+            try await kelderService.sendKelderMessage(message: message)
+            messageState = .success(nil)
+        } catch {
+            if let hydraError = error as? HydraError {
+                messageState = .failure(hydraError)
+            } else {
+                messageState = .failure(HydraError.runtimeError("Failed to send message", error))
             }
         }
     }
 
     @MainActor
-    func controlDoor(_ cmd: ZeusDoorCommand) async {
+    func controlDoor(_ cmd: DoorCommand) async {
+        doorState = .fetching
         do {
-            try await door.execute(cmd)
+            guard let doorToken = ZeusConfig.sharedInstance.doorToken else {
+                throw HydraError.runtimeError("Door token not set")
+            }
+            try await mattermoreService.executeDoorAction(
+                token: doorToken, action: cmd == .open ? "open" : "lock")
+            doorState = .success(nil)
         } catch {
-            debugPrint("Failed to execute door command: \(error)")
+            if let hydraError = error as? HydraError {
+                doorState = .failure(hydraError)
+            } else {
+                doorState = .failure(HydraError.runtimeError("Failed to send door command", error))
+            }
         }
     }
 
@@ -67,12 +74,14 @@ class ZeusDocument: ObservableObject {
         do {
             let tapUser = try await TapUserRequest.fetch()
             let tabUser = try await TabUserRequest.fetch()
-            user = CombinedUser(
-                id: tapUser.id,
-                name: tapUser.name,
-                balance: tabUser.balance,
-                orders: tapUser.orderCount,
-                favouriteOrder: tapUser.favorite)
+            user = .success(
+                CombinedUser(
+                    id: tapUser.id,
+                    name: tapUser.name,
+                    balance: tabUser.balance,
+                    orders: tapUser.orderCount,
+                    favouriteOrder: tapUser.favorite)
+            )
 
         } catch {
             debugPrint("Failed to load user: \(error)")
@@ -89,5 +98,9 @@ class ZeusDocument: ObservableObject {
         func balanceDecimal() -> Double {
             return Double(balance) / 100
         }
+    }
+
+    enum DoorCommand {
+        case open, close
     }
 }

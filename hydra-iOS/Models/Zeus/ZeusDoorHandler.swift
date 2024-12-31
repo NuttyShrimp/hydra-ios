@@ -9,10 +9,6 @@ import Foundation
 import AlertToast
 
 struct ZeusDoorHandler {
-    func hasDoorToken() -> Bool {
-        return ZeusConfig.sharedInstance.doorToken != nil
-    }
-
     func execute(_ command: Command) async throws {
         guard let doorToken = ZeusConfig.sharedInstance.doorToken else {
             return

@@ -40,7 +40,7 @@ struct DataLoaderView<T, Content: View, Label: View>: View {
     var body: some View {
         ZStack {
             switch state {
-            case .fetching:
+            case .fetching, .idle:
                 ProgressView(label: label)
             case .success(let data):
                 content(data)

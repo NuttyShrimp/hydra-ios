@@ -24,6 +24,7 @@ enum HydraError: Error {
 
 enum HydraDataFetch<T>: Equatable {
     case fetching
+    case idle
     case success(T)
     case failure(HydraError)
 

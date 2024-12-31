@@ -14,18 +14,19 @@ struct ZeusMainView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if let user = zeus.user {
-                    Text("Your Tab balance is:")
-                    Text("Ƶ \(String(format: "%.2f", user.balanceDecimal()))")
-                        .font(.system(size: 30, weight: .semibold))
+                DataLoaderView(zeus.user, fetcher: zeus.loadUser) { user in
+                    if let user = user {
+                        VStack {
+                            Text("Your Tab balance is:")
+                            Text("Ƶ \(String(format: "%.2f", user.balanceDecimal()))")
+                                .font(.system(size: 30, weight: .semibold))
+                        }
+                    }
                 }
                 actionBtns
                 Spacer()
             }
             .padding()
-        }
-        .task {
-            await zeus.loadUser()
         }
     }
 
@@ -34,9 +35,7 @@ struct ZeusMainView: View {
             if zeus.hasDoorControl() {
                 Button {
                     Task {
-                        Task {
-                            await zeus.controlDoor(.close)
-                        }
+                        await zeus.controlDoor(.close)
                     }
                 } label: {
                     Label("", systemImage: "lock.open")
@@ -46,9 +45,7 @@ struct ZeusMainView: View {
 
                 Button {
                     Task {
-                        Task {
-                            await zeus.controlDoor(.open)
-                        }
+                        await zeus.controlDoor(.open)
                     }
                 } label: {
                     Label("", systemImage: "lock")

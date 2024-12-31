@@ -6,12 +6,20 @@
 //
 
 import SwiftUI
+import AlertToast
 
 struct ZeusCammieView: View {
     @ObservedObject var zeus: ZeusDocument
     @ObservedObject private var stream = MjpegStreamingController(
         contentURL: "https://kelder.zeus.ugent.be/camera/cammie")
     @State private var kelderMsg = ""
+    @State private var isKelderMsgToastShowing = false {
+        didSet {
+            if !isKelderMsgToastShowing {
+                zeus.messageState = .idle
+            }
+        }
+    }
 
     let actions: [[ZeusCommand]] = [
         [.cammie(.northWest), .cammie(.north), .cammie(.northEast)],
@@ -53,10 +61,19 @@ struct ZeusCammieView: View {
             Button(
                 "OK",
                 action: {
-                    zeus.sendKelderMessage(kelderMsg)
-                    kelderMsg = ""
-                    zeus.showMessageAlert = false
+                    Task {
+                        await zeus.sendKelderMessage(kelderMsg)
+                        kelderMsg = ""
+                        zeus.showMessageAlert = false
+                        isKelderMsgToastShowing = true
+                    }
                 })
+        }.toast(isPresenting: $isKelderMsgToastShowing) {
+            if case .success = zeus.messageState {
+                AlertToast(displayMode: .hud, type: .complete(.green), title: "Message Sent!")
+            } else {
+                AlertToast(displayMode: .hud, type: .error(.red), title: "Failed to send message")
+            }
         }
     }
 
