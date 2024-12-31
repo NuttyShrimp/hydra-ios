@@ -20,7 +20,7 @@ class RestoDocument: ObservableObject {
     @Published var selectedDate: Int = 0
 
     private let userDefaults = UserDefaults.standard
-    private let zeusService = ZeusService()
+    private let hydraService = HydraService()
 
     var selectedRestoLocation: RestoLocation? {
         guard case .success(let restoLocations) = restoLocations else {
@@ -68,7 +68,7 @@ class RestoDocument: ObservableObject {
     func loadAvailableRestos() async {
         restoLocations = .fetching
         do {
-            let locs = try await zeusService.loadRestaurantLocations()
+            let locs = try await hydraService.loadRestaurantLocations()
             restoLocations = .success(locs)
 
             if let preferrerdResto = userDefaults.string(
@@ -104,7 +104,7 @@ class RestoDocument: ObservableObject {
     @MainActor
     func loadAllergens() async {
         do {
-            let allergens = try await zeusService.loadAllergens()
+            let allergens = try await hydraService.loadAllergens()
             self.allergens = .success(allergens)
         } catch {
             if let hydraError = error as? HydraError {
@@ -120,9 +120,9 @@ class RestoDocument: ObservableObject {
     func loadAdditionalMenuItems() async {
         additionalMenuItems = .fetching
         do {
-            let sandwiches = try await zeusService.loadSandwiches()
-            let salads = try await zeusService.loadSalads()
-            var extraFoodDict = try await zeusService.loadExtraFood()
+            let sandwiches = try await hydraService.loadSandwiches()
+            let salads = try await hydraService.loadSalads()
+            var extraFoodDict = try await hydraService.loadExtraFood()
             extraFoodDict["Broodjes"] = sandwiches.map { $0.intoOtherMenuItem(allergens: getAllergensForKey(type: "belegde broodjes", for: $0.name.lowercased())) }
             extraFoodDict["Salades"] = salads.map { $0.intoOtherMenuItem(allergens: getAllergensForKey(type: "saladbar", for: $0.name.lowercased())) }
             additionalMenuItems = .success(OrderedDictionary(uniqueKeysWithValues: extraFoodDict.sorted { $0.key < $1.key }))
@@ -145,7 +145,7 @@ class RestoDocument: ObservableObject {
                 return
             }
 
-            let menus = try await zeusService.loadRestaurantMenus(for: endpoint)
+            let menus = try await hydraService.loadRestaurantMenus(for: endpoint)
             selectedRestoMenus = .success(menus)
         } catch {
             if let hydraError = error as? HydraError {

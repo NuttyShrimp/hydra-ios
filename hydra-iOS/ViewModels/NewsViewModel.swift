@@ -13,8 +13,8 @@ class NewsViewModel: ObservableObject {
     @Published var events: HydraDataFetch<[any Eventable]> = .fetching
 
     private let dsaService = DSAService()
-    private let ugentService = ZeusService.Ugent()
-    private let specialService = ZeusService.SpecialEvents()
+    private let ugentService = HydraService.Ugent()
+    private let specialService = HydraService.SpecialEvents()
 
     @MainActor
     func loadEvents() async {

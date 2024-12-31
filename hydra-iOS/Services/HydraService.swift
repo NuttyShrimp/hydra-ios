@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ZeusService {
+struct HydraService {
     struct Ugent: EventService {
         func fetchEvents() async throws -> [UGentNewsEvent] {
             do {

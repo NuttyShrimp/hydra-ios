@@ -10,13 +10,13 @@ import Foundation
 class ExtraInfoDocument: ObservableObject {
     @Published var info: HydraDataFetch<[InfoEntry]> = .fetching
     
-    private let zeusService = ZeusService()
+    private let hydraService = HydraService()
     
     @MainActor
     func loadInfo() async {
         info = .fetching
         do {
-            let data = try await zeusService.loadInfo()
+            let data = try await hydraService.loadInfo()
             info = .success(data)
         } catch {
             if let hydraError = error as? HydraError {
