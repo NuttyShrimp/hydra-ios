@@ -20,6 +20,15 @@ enum HydraError: Error {
             return error.localizedDescription
         }
     }
+    
+    var description: String {
+        switch self {
+        case .runtimeError(let message):
+            return message
+        case .networkError(let error):
+            return error.description
+        }
+    }
 }
 
 enum HydraDataFetch<T>: Equatable {

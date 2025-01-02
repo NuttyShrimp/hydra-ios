@@ -18,12 +18,15 @@ struct ZeusMainView: View {
                     if let user = user {
                         VStack {
                             Text("Your Tab balance is:")
-                            Text("Ƶ \(String(format: "%.2f", user.balanceDecimal()))")
+                            Text("Ƶ \(user.balanceDecimal())")
                                 .font(.system(size: 30, weight: .semibold))
                         }
                     }
                 }
                 actionBtns
+                ScrollView {
+                    requests
+                }
                 Spacer()
             }
             .padding()
@@ -66,6 +69,63 @@ struct ZeusMainView: View {
             .buttonStyle(.bordered)
             .foregroundStyle(Color(.accent))
 
+        }
+    }
+
+    var requests: some View {
+        DataLoaderView(zeus.tabRequests, fetcher: zeus.loadTabRequests) { requests in
+            if requests.isEmpty {
+                EmptyView()
+            } else {
+                VStack {
+                    Text("Verzoeken")
+                        .font(.title2)
+                        .bold()
+                        .align(.left)
+                    ForEach(requests) { request in
+                        ZeusTransactionView(transaction: request, zeus: zeus)
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct ZeusTransactionView: View {
+    var transaction: TabTransaction
+    @ObservedObject var zeus: ZeusDocument
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(.systemGray5))
+            HStack {
+                VStack {
+                    Text("Ƶ\(transaction.amountDecimal()) to \(transaction.creditor)")
+                        .bold()
+                        .align(.left)
+                    Text(transaction.message)
+                        .align(.left)
+                }
+                Spacer()
+                if transaction.canReject() {
+                    Button("", systemImage: "x.circle") {
+                        Task {
+                            await zeus.executeRequestAction(
+                                for: transaction.id, action: .decline)
+                        }
+                    }
+                }
+                if transaction.canAccept() {
+                    Button("", systemImage: "checkmark.circle") {
+                        Task {
+                            await zeus.executeRequestAction(
+                                for: transaction.id, action: .confirm)
+                        }
+                    }
+                }
+            }
+            .padding()
         }
     }
 }

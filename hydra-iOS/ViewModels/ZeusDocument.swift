@@ -11,10 +11,12 @@ class ZeusDocument: ObservableObject {
     @Published var user: HydraDataFetch<CombinedUser?> = .fetching
     @Published var doorState: HydraDataFetch<Any?> = .idle
     @Published var messageState: HydraDataFetch<Any?> = .idle
+    @Published var tabRequests: HydraDataFetch<[TabTransaction]> = .idle
     @Published var showMessageAlert = false
 
     let mattermoreService = MattermoreService()
     let kelderService = KelderService()
+    let tabService = TabService()
     
     func hasDoorControl() -> Bool {
         return ZeusConfig.sharedInstance.doorToken != nil
@@ -87,6 +89,33 @@ class ZeusDocument: ObservableObject {
             debugPrint("Failed to load user: \(error)")
         }
     }
+    
+    @MainActor
+    func loadTabRequests() async {
+        tabRequests = .fetching
+        do {
+            guard let username = ZeusConfig.sharedInstance.username else {
+                throw HydraError.runtimeError("Username not set")
+            }
+            guard let tabToken = ZeusConfig.sharedInstance.tabToken else {
+                throw HydraError.runtimeError("Tab token not set")
+            }
+
+            let data = try await tabService.getOpenRequest(for: username, tabKey: tabToken)
+            tabRequests = .success(data)
+        } catch {
+            if let hydraError = error as? HydraError {
+                tabRequests = .failure(hydraError)
+            } else {
+                tabRequests = .failure(HydraError.runtimeError("Failed to get tab requests", error))
+            }
+        }
+    }
+    
+    @MainActor
+    func executeRequestAction(for id: Int, action: RequestAction) async {
+        
+    }
 
     struct CombinedUser {
         var id: Int
@@ -95,12 +124,16 @@ class ZeusDocument: ObservableObject {
         var orders: Int
         var favouriteOrder: Int
 
-        func balanceDecimal() -> Double {
-            return Double(balance) / 100
+        func balanceDecimal() -> String {
+            return (Double(balance) / 100).formatted(.currency(code: ""))
         }
     }
 
     enum DoorCommand {
         case open, close
+    }
+    
+    enum RequestAction: String {
+        case confirm, decline
     }
 }

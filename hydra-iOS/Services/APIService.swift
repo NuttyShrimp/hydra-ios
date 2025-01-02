@@ -8,12 +8,16 @@
 import Foundation
 
 struct APIService {
-    static func fetch<T: Decodable>(_ type: T.Type, url: URL?, decoder: JSONDecoder = CustomDecoder()) async throws -> T {
+    static func fetch<T: Decodable>(_ type: T.Type, url: URL?, decoder: JSONDecoder = CustomDecoder(), headers: [String: String] = [:]) async throws -> T {
         guard let url = url else {
             throw APIError.badURL
         }
         do {
-            let (data, response) = try await URLSession.shared.data(from: url)
+            var request = URLRequest(url: url)
+            headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
+            request.cachePolicy = .reloadIgnoringLocalCacheData
+
+            let (data, response) = try await URLSession.shared.data(for: request)
             
             if let response = response as? HTTPURLResponse,
                 !(200...299).contains(response.statusCode)
@@ -29,7 +33,9 @@ struct APIService {
             }
 
         } catch {
-            if let error = error as? URLError {
+            if let error = error as? APIError {
+                throw error
+            } else if let error = error as? URLError {
                 throw APIError.url(error)
             } else {
                 throw APIError.unknown(error)

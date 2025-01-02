@@ -47,7 +47,11 @@ struct DataLoaderView<T, Content: View, Label: View>: View {
             case .failure(let error):
                 VStack {
                     Text("Error loading data")
+                #if DEBUG
+                    Text(error.description)
+                #else
                     Text(error.localizedDescription)
+                #endif
                 }
             }
         }

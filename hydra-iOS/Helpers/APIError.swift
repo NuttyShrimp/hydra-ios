@@ -29,12 +29,12 @@ enum APIError: Error, CustomStringConvertible {
     var description: String {
         //info for debugging
         switch self {
-        case .unknown: return "unknown error"
+        case .unknown(let error): return "unknown error: \(error)"
         case .badURL: return "invalid URL"
         case .url(let error):
-            return error?.localizedDescription ?? "url session error"
+            return "\(error )"
         case .parsing(let error):
-            return "parsing error \(error?.localizedDescription ?? "")"
+            return "parsing error \(error)"
         case .badResponse(statusCode: let statusCode):
             return "bad response with status code \(statusCode)"
         }
