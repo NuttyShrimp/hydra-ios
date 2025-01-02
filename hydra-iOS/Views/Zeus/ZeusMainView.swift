@@ -26,6 +26,8 @@ struct ZeusMainView: View {
                 actionBtns
                 ScrollView {
                     requests
+                    Divider()
+                    transactions
                 }
                 Spacer()
             }
@@ -83,6 +85,27 @@ struct ZeusMainView: View {
                         .bold()
                         .align(.left)
                     ForEach(requests) { request in
+                        ZeusTransactionView(transaction: request, hideIcon: true, zeus: zeus)
+                    }
+                }
+            }
+        }
+    }
+
+    var transactions: some View {
+        DataLoaderView(
+            zeus.tabTransaction, fetcher: zeus.loadTabTransactions,
+            label: { Text("Loading transactions") }
+        ) { transactions in
+            if transactions.isEmpty {
+                EmptyView()
+            } else {
+                VStack {
+                    Text("Transacties")
+                        .font(.title2)
+                        .bold()
+                        .align(.left)
+                    ForEach(transactions) { request in
                         ZeusTransactionView(transaction: request, zeus: zeus)
                     }
                 }
@@ -93,15 +116,20 @@ struct ZeusMainView: View {
 
 struct ZeusTransactionView: View {
     var transaction: TabTransaction
+    var hideIcon = false
     @ObservedObject var zeus: ZeusDocument
-    
+    @AppStorage(GlobalConstants.StorageKeys.Zeus.username) var username = ""
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color(.systemGray5))
             HStack {
+                if !hideIcon {
+                    icon
+                }
                 VStack {
-                    Text("Ƶ\(transaction.amountDecimal()) to \(transaction.creditor)")
+                    Text("Ƶ\(transaction.amountDecimal()) \(transaction.creditor == username ? "from" : "to") \(transaction.displayOtherParty(from: username))")
                         .bold()
                         .align(.left)
                     Text(transaction.message)
@@ -127,6 +155,19 @@ struct ZeusTransactionView: View {
             }
             .padding()
         }
+    }
+
+    var icon: some View {
+        ZStack {
+            Image(transaction.thumbnail(for: username))
+                .resizable()
+                .scaledToFit()
+                .frame(width: Constants.iconSize, height: Constants.iconSize)
+        }
+    }
+    
+    struct Constants {
+        static let iconSize: CGFloat = 50
     }
 }
 

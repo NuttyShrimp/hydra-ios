@@ -12,6 +12,7 @@ class ZeusDocument: ObservableObject {
     @Published var doorState: HydraDataFetch<Any?> = .idle
     @Published var messageState: HydraDataFetch<Any?> = .idle
     @Published var tabRequests: HydraDataFetch<[TabTransaction]> = .idle
+    @Published var tabTransaction: HydraDataFetch<[TabTransaction]> = .idle
     @Published var showMessageAlert = false
 
     let mattermoreService = MattermoreService()
@@ -70,6 +71,11 @@ class ZeusDocument: ObservableObject {
             }
         }
     }
+    
+    @MainActor
+    func executeRequestAction(for id: Int, action: RequestAction) async {
+        
+    }
 
     @MainActor
     func loadUser() async {
@@ -113,8 +119,25 @@ class ZeusDocument: ObservableObject {
     }
     
     @MainActor
-    func executeRequestAction(for id: Int, action: RequestAction) async {
-        
+    func loadTabTransactions() async {
+        tabTransaction = .fetching
+        do {
+            guard let username = ZeusConfig.sharedInstance.username else {
+                throw HydraError.runtimeError("Username not set")
+            }
+            guard let tabToken = ZeusConfig.sharedInstance.tabToken else {
+                throw HydraError.runtimeError("Tab token not set")
+            }
+
+            let data = try await tabService.getTransactions(for: username, tabKey: tabToken)
+            tabTransaction = .success(data)
+        } catch {
+            if let hydraError = error as? HydraError {
+                tabTransaction = .failure(hydraError)
+            } else {
+                tabTransaction = .failure(HydraError.runtimeError("Failed to get tab transactions", error))
+            }
+        }
     }
 
     struct CombinedUser {

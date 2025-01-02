@@ -52,4 +52,16 @@ struct TabTransaction: Decodable, Identifiable {
     func canReject() -> Bool {
         return actions?.contains("decline") ?? false
     }
+    
+    func thumbnail(for name: String) -> String {
+        if issuer == "Tap" {
+            return "TapLogo"
+        }
+        let amount = adjustedAmount(from: name)
+        if amount > 0 {
+            return "incomingBank"
+        }
+        
+        return "outgoingBank"
+    }
 }
