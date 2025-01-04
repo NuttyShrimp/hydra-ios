@@ -14,10 +14,12 @@ class ZeusDocument: ObservableObject {
     @Published var tabRequests: HydraDataFetch<[TabTransaction]> = .idle
     @Published var tabTransaction: HydraDataFetch<[TabTransaction]> = .idle
     @Published var showMessageAlert = false
+    @Published var tabRequestAction: HydraDataFetch<Any?> = .idle
 
     let mattermoreService = MattermoreService()
     let kelderService = KelderService()
     let tabService = TabService()
+    
     
     func hasDoorControl() -> Bool {
         return ZeusConfig.sharedInstance.doorToken != nil
@@ -74,7 +76,24 @@ class ZeusDocument: ObservableObject {
     
     @MainActor
     func executeRequestAction(for id: Int, action: RequestAction) async {
-        
+        tabRequestAction = .fetching
+        do {
+             guard let tabToken = ZeusConfig.sharedInstance.tabToken else {
+                throw HydraError.runtimeError("Tab token not set")
+            }
+
+            _ = try await tabService.postTabAction(for: id, action: action.rawValue, tabKey: tabToken)
+            tabRequestAction = .success("Request \(action.rawValue == "confirm" ? "confirmed" : "declined")")
+            await loadUser()
+            await loadTabRequests()
+            await loadTabTransactions()
+        } catch {
+            if let hydraError = error as? HydraError {
+                tabRequestAction = .failure(hydraError)
+            } else {
+                tabRequestAction = .failure(HydraError.runtimeError("Failed to get tab requests", error))
+            }
+        }
     }
 
     @MainActor

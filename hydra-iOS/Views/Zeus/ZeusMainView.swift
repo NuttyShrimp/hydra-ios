@@ -27,6 +27,12 @@ struct ZeusMainView: View {
                     Divider()
                     transactions
                 }
+                .refreshable {
+                    Task {
+                        await zeus.loadTabRequests()
+                        await zeus.loadTabTransactions()
+                    }
+                }
                 Spacer()
             }
             .padding()

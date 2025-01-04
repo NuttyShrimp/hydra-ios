@@ -44,13 +44,15 @@ struct APIService {
     }
     
     /// Send a post request without any data & expects nothing in return
-    static func execute(url: URL?) async throws {
+    static func execute(url: URL?, headers: [String : String] = [:]) async throws {
         guard let url = url else {
             throw APIError.badURL
         }
         do {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
+            headers.forEach { request.setValue($1, forHTTPHeaderField: $0) }
+
             let (_, response) = try await URLSession.shared.data(for: request)
             
             if let response = response as? HTTPURLResponse,

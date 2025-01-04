@@ -5,13 +5,14 @@
 //  Created by Jan Lecoutere on 10/11/2024.
 //
 
+import AlertToast
 import Foundation
 
 enum HydraError: Error {
     case runtimeError(String, Error)
     case runtimeError(String)
     case networkError(APIError)
-    
+
     var localizedDescription: String {
         switch self {
         case .runtimeError(let message):
@@ -20,7 +21,7 @@ enum HydraError: Error {
             return error.localizedDescription
         }
     }
-    
+
     var description: String {
         switch self {
         case .runtimeError(let message):
@@ -44,5 +45,35 @@ enum HydraDataFetch<T>: Equatable {
 
     var value: String? {
         return String(describing: self).components(separatedBy: "(").first
+    }
+
+    var alertType: AlertToast.AlertType {
+        switch self {
+        case .fetching:
+            return .loading
+        case .idle:
+            return .loading
+        case .success:
+            return .complete(.green)
+        case .failure:
+            return .error(.red)
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .fetching:
+            return "Loading"
+        case .idle:
+            return "Idle"
+            return "Success"
+        case .success(let data):
+            if let data = data as? String {
+                return data
+            }
+            return "Success"
+        case .failure(let error):
+            return error.localizedDescription
+        }
     }
 }

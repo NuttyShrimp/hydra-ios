@@ -11,10 +11,12 @@
 		F846C2B12D12DC2B0074399E /* Countly in Frameworks */ = {isa = PBXBuildFile; productRef = F846C2B02D12DC2B0074399E /* Countly */; };
 		F85F81F92D05FB7300967018 /* LucideIcons in Frameworks */ = {isa = PBXBuildFile; productRef = F85F81F82D05FB7300967018 /* LucideIcons */; };
 		F8C406F22D0F111500985942 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = F8C406F12D0F111500985942 /* OrderedCollections */; };
+		F8DFD4652D29444D00022B8B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F8DFD4642D29444700022B8B /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F84E400D2CB3F05D00202EF8 /* hydra-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hydra-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8DFD4642D29444700022B8B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -56,6 +58,7 @@
 		F84E40042CB3F05D00202EF8 = {
 			isa = PBXGroup;
 			children = (
+				F8DFD4642D29444700022B8B /* README.md */,
 				F84E400F2CB3F05D00202EF8 /* hydra-iOS */,
 				F84E400E2CB3F05D00202EF8 /* Products */,
 			);
@@ -143,6 +146,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8DFD4652D29444D00022B8B /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,7 +296,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COUNTLY_APP_ID = 0ffe9799d8d143106af452774e8c2c4d873461af;
 				COUNTLY_HOST = "http://localhost:7080";
-				CURRENT_PROJECT_VERSION = 3.0.0.7;
+				CURRENT_PROJECT_VERSION = 3.0.0.8;
 				DEVELOPMENT_ASSET_PATHS = "\"hydra-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = D38FNBFRY3;
 				ENABLE_PREVIEWS = YES;
@@ -336,7 +340,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COUNTLY_APP_ID = e00c89dfea645e0d6402b42fea5054b711e04707;
 				COUNTLY_HOST = "https://countly.lecoutere.dev";
-				CURRENT_PROJECT_VERSION = 3.0.0.7;
+				CURRENT_PROJECT_VERSION = 3.0.0.8;
 				DEVELOPMENT_ASSET_PATHS = "\"hydra-iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = D38FNBFRY3;
 				ENABLE_PREVIEWS = YES;
