@@ -10,7 +10,6 @@ import SwiftUI
 struct ZeusInputConfigView: View {
     @AppStorage(GlobalConstants.StorageKeys.Zeus.username) var zeusUsername = ""
     @AppStorage(GlobalConstants.StorageKeys.Zeus.tab) var zeusTabApiKey = ""
-    @AppStorage(GlobalConstants.StorageKeys.Zeus.tap) var zeusTapApiKey = ""
     @AppStorage(GlobalConstants.StorageKeys.Zeus.door) var zeusDoorAccessApiKey = ""
 
     var body: some View {
@@ -27,15 +26,6 @@ struct ZeusInputConfigView: View {
                 TextField(
                     "Required",
                     text: $zeusTabApiKey
-                )
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled()
-            }
-
-            Section("API Key voor Tap") {
-                TextField(
-                    "Required",
-                    text: $zeusTapApiKey
                 )
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()

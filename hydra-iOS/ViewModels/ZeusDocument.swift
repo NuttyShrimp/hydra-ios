@@ -8,7 +8,7 @@
 import Foundation
 
 class ZeusDocument: ObservableObject {
-    @Published var user: HydraDataFetch<CombinedUser?> = .fetching
+    @Published var user: HydraDataFetch<TabUserRequest.TabUser> = .idle
     @Published var doorState: HydraDataFetch<Any?> = .idle
     @Published var messageState: HydraDataFetch<Any?> = .idle
     @Published var tabRequests: HydraDataFetch<[TabTransaction]> = .idle
@@ -80,17 +80,10 @@ class ZeusDocument: ObservableObject {
     @MainActor
     func loadUser() async {
         do {
-            let tapUser = try await TapUserRequest.fetch()
             let tabUser = try await TabUserRequest.fetch()
             user = .success(
-                CombinedUser(
-                    id: tapUser.id,
-                    name: tapUser.name,
-                    balance: tabUser.balance,
-                    orders: tapUser.orderCount,
-                    favouriteOrder: tapUser.favorite)
+                tabUser
             )
-
         } catch {
             debugPrint("Failed to load user: \(error)")
         }
@@ -137,18 +130,6 @@ class ZeusDocument: ObservableObject {
             } else {
                 tabTransaction = .failure(HydraError.runtimeError("Failed to get tab transactions", error))
             }
-        }
-    }
-
-    struct CombinedUser {
-        var id: Int
-        var name: String
-        var balance: Int
-        var orders: Int
-        var favouriteOrder: Int
-
-        func balanceDecimal() -> String {
-            return (Double(balance) / 100).formatted(.currency(code: ""))
         }
     }
 

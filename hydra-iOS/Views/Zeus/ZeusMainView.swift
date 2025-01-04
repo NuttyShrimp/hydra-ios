@@ -15,12 +15,10 @@ struct ZeusMainView: View {
         NavigationStack {
             VStack {
                 DataLoaderView(zeus.user, fetcher: zeus.loadUser) { user in
-                    if let user = user {
-                        VStack {
-                            Text("Your Tab balance is:")
-                            Text("Ƶ \(user.balanceDecimal())")
-                                .font(.system(size: 30, weight: .semibold))
-                        }
+                    VStack {
+                        Text("Your Tab balance is:")
+                        Text("Ƶ \(user.balanceDecimal())")
+                            .font(.system(size: 30, weight: .semibold))
                     }
                 }
                 actionBtns
@@ -129,9 +127,11 @@ struct ZeusTransactionView: View {
                     icon
                 }
                 VStack {
-                    Text("Ƶ\(transaction.amountDecimal()) \(transaction.creditor == username ? "from" : "to") \(transaction.displayOtherParty(from: username))")
-                        .bold()
-                        .align(.left)
+                    Text(
+                        "Ƶ\(transaction.amountDecimal()) \(transaction.creditor == username ? "from" : "to") \(transaction.displayOtherParty(from: username))"
+                    )
+                    .bold()
+                    .align(.left)
                     Text(transaction.message)
                         .align(.left)
                 }
@@ -165,7 +165,7 @@ struct ZeusTransactionView: View {
                 .frame(width: Constants.iconSize, height: Constants.iconSize)
         }
     }
-    
+
     struct Constants {
         static let iconSize: CGFloat = 50
     }

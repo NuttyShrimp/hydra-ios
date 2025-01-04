@@ -12,6 +12,10 @@ struct TabUserRequest {
         var id: Int
         var name: String
         var balance: Int
+        
+        func balanceDecimal() -> String {
+            return (Double(balance) / 100).formatted(.currency(code: ""))
+        }
     }
 
     static func fetch() async throws -> TabUser {

@@ -33,11 +33,4 @@ struct ZeusConfig {
             UserDefaults.standard.set(tabToken, forKey: ZeusKeys.tab)
         }
     }
-    var tapToken = UserDefaults.standard.string(
-        forKey: ZeusKeys.tap)
-    {
-        didSet {
-            UserDefaults.standard.set(tapToken, forKey: ZeusKeys.tap)
-        }
-    }
 }
