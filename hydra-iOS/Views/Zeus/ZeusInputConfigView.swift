@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct ZeusInputConfigView: View {
-    @AppStorage(GlobalConstants.StorageKeys.Zeus.username) var zeusUsername = "" {
+    @State var zeusUsername = ZeusConfig.sharedInstance.username ?? "" {
         didSet {
             ZeusConfig.sharedInstance.username = zeusUsername
         }
     }
-    @AppStorage(GlobalConstants.StorageKeys.Zeus.tab) var zeusTabApiKey = "" {
+    @State var zeusTabApiKey = ZeusConfig.sharedInstance.tabToken ?? "" {
         didSet {
             ZeusConfig.sharedInstance.tabToken = zeusTabApiKey
         }
     }
-    @AppStorage(GlobalConstants.StorageKeys.Zeus.door) var zeusDoorAccessApiKey = "" {
+    @State var zeusDoorAccessApiKey = ZeusConfig.sharedInstance.doorToken ?? "" {
         didSet {
             ZeusConfig.sharedInstance.doorToken = zeusDoorAccessApiKey
         }
