@@ -16,11 +16,11 @@ struct NewsView: View {
             DataLoaderView(
                 dsa.associations, fetcher: dsa.loadAssocations,
                 label: {
-                    Label("Loading DSA Associations", image: "")
+                    Text("Loading DSA Associations")
                 }
             ) { _ in
                 DataLoaderView(
-                    news.events, fetcher: news.loadEvents, label: { Label("Loading Events", image: "") }
+                    news.events, fetcher: news.loadEvents, label: { Text("Loading Events") }
                 ) {
                     events in
                     ScrollView {
