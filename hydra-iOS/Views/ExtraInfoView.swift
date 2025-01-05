@@ -91,9 +91,11 @@ struct ExtraInfoLabel: View {
                     title: { Text(title) },
                     icon: {
                         Image(icon)
+                            .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
                             .frame(maxWidth: Constants.iconSize, maxHeight: Constants.iconSize)
+                            .foregroundStyle(Color(UIColor.label))
                     })
             }
         } else {

@@ -38,9 +38,11 @@ struct WebPageButton: View {
                     title: { Text(title) },
                     icon: {
                         Image(image)
+                            .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
                             .frame(width: iconSize, height: iconSize)
+                            .foregroundStyle(Color(UIColor.label))
                     })
             } else {
                 Text(title)
