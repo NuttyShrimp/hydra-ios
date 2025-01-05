@@ -5,8 +5,8 @@
 //  Created by Jan Lecoutere on 25/12/2024.
 //
 
-import SwiftUI
 import AlertToast
+import SwiftUI
 
 struct SettingsAboutView: View {
     @Environment(\.openURL) var openURL
@@ -26,7 +26,9 @@ struct SettingsAboutView: View {
                     url: "https://github.com/NuttyShrimp/hydra-ios/issues/new", title: "Feedback")
             }
             Section {
-                Button(
+                IconButton(
+                    title: "Made by Zeus WPI", image: "ZeusLogo", iconSize: Constants.logoSize,
+                    external: true,
                     action: {
                         if zeusMode {
                             openURL(URL(string: "https://zeus.ugent.be")!)
@@ -34,34 +36,33 @@ struct SettingsAboutView: View {
                         }
                         zeusClickCount += 1
                         showZeusToast = true
-                        if (zeusClickCount == 3) {
+                        if zeusClickCount == 3 {
                             zeusMode = true
                             return
                         }
-                    },
-                    label: {
-                        Label(title: {
-                            Text("Made by Zeus WPI")
-                        }, icon: {
-                            Image("ZeusLogo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: Constants.logoSize, height: Constants.logoSize)
-                        })
                     })
-                WebPageButton(url: "https://dsa.ugent.be", title: "In samenwerking met Dienst Studentenactiviteiten", image: "UgentLogo", iconSize: Constants.logoSize)
-                WebPageButton(url: "https://gentsestudentenraad.be", title: "Met de steun van de Gentse Studentenraad", image: "GsrLogo", iconSize: Constants.logoSize)
+                WebPageButton(
+                    url: "https://dsa.ugent.be",
+                    title: "In samenwerking met Dienst Studentenactiviteiten", image: "UgentLogo",
+                    iconSize: Constants.logoSize)
+                WebPageButton(
+                    url: "https://gentsestudentenraad.be",
+                    title: "Met de steun van de Gentse Studentenraad", image: "GsrLogo",
+                    iconSize: Constants.logoSize)
             }
         }
-        .toast(isPresenting: $showZeusToast){
+        .toast(isPresenting: $showZeusToast) {
             if zeusClickCount == 3 {
-                AlertToast(displayMode: .hud, type: .complete(.green), title: "Zeus mode ingeschakeld")
+                AlertToast(
+                    displayMode: .hud, type: .complete(.green), title: "Zeus mode ingeschakeld")
             } else {
-                AlertToast(displayMode: .hud, type: .regular, title: "Nog \(3 - zeusClickCount) keer klikken voor Zeus mode in te schakelen")
+                AlertToast(
+                    displayMode: .hud, type: .regular,
+                    title: "Nog \(3 - zeusClickCount) keer klikken voor Zeus mode in te schakelen")
             }
         }
     }
-    
+
     struct Constants {
         static let logoSize: CGFloat = 50
     }
