@@ -19,10 +19,10 @@ struct TabUserRequest {
     }
 
     static func fetch() async throws -> TabUser {
-        guard let username = ZeusConfig.sharedInstance.username else {
+        guard let username = await ZeusConfig.sharedInstance.username else {
             throw HydraError.runtimeError("Please set your username")
         }
-        guard let tabToken = ZeusConfig.sharedInstance.tabToken else {
+        guard let tabToken = await ZeusConfig.sharedInstance.tabToken else {
             throw HydraError.runtimeError("Please set your Tab API key")
         }
         

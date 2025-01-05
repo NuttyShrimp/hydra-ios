@@ -11,7 +11,7 @@ struct KelderService {
     func sendKelderMessage(message: String) async throws {
         do {
             var headers = [String: String]()
-            if let username = ZeusConfig.sharedInstance.username {
+            if let username = await ZeusConfig.sharedInstance.username {
                 headers["X-Username"] = username
             }
             try await APIService.execute(url: URL(string: "\(GlobalConstants.KELDER)/messages/"), body: message, headers: headers)

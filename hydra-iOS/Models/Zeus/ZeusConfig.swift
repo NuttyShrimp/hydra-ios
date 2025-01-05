@@ -10,7 +10,7 @@ import Foundation
 typealias ZeusKeys = GlobalConstants.StorageKeys.Zeus
 
 struct ZeusConfig {
-    static let sharedInstance = ZeusConfig()
+    @MainActor static var sharedInstance = ZeusConfig()
 
     var username = UserDefaults.standard.string(
         forKey: ZeusKeys.username)

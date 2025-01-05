@@ -8,9 +8,21 @@
 import SwiftUI
 
 struct ZeusInputConfigView: View {
-    @AppStorage(GlobalConstants.StorageKeys.Zeus.username) var zeusUsername = ""
-    @AppStorage(GlobalConstants.StorageKeys.Zeus.tab) var zeusTabApiKey = ""
-    @AppStorage(GlobalConstants.StorageKeys.Zeus.door) var zeusDoorAccessApiKey = ""
+    @AppStorage(GlobalConstants.StorageKeys.Zeus.username) var zeusUsername = "" {
+        didSet {
+            ZeusConfig.sharedInstance.username = zeusUsername
+        }
+    }
+    @AppStorage(GlobalConstants.StorageKeys.Zeus.tab) var zeusTabApiKey = "" {
+        didSet {
+            ZeusConfig.sharedInstance.tabToken = zeusTabApiKey
+        }
+    }
+    @AppStorage(GlobalConstants.StorageKeys.Zeus.door) var zeusDoorAccessApiKey = "" {
+        didSet {
+            ZeusConfig.sharedInstance.doorToken = zeusDoorAccessApiKey
+        }
+    }
 
     var body: some View {
         Form {

@@ -21,7 +21,7 @@ class ZeusDocument: ObservableObject {
     let tabService = TabService()
     
     
-    func hasDoorControl() -> Bool {
+    @MainActor func hasDoorControl() -> Bool {
         return ZeusConfig.sharedInstance.doorToken != nil
     }
 
@@ -72,6 +72,7 @@ class ZeusDocument: ObservableObject {
                 doorState = .failure(HydraError.runtimeError("Failed to send door command", error))
             }
         }
+        print(doorState)
     }
     
     @MainActor
