@@ -44,7 +44,7 @@ struct ZeusMainView: View {
             if zeus.hasDoorControl() {
                 Button {
                     Task {
-                        await zeus.controlDoor(.close)
+                        await zeus.controlDoor(.open)
                     }
                 } label: {
                     Label("", systemImage: "lock.open")
@@ -54,7 +54,7 @@ struct ZeusMainView: View {
 
                 Button {
                     Task {
-                        await zeus.controlDoor(.open)
+                        await zeus.controlDoor(.close)
                     }
                 } label: {
                     Label("", systemImage: "lock")
