@@ -41,7 +41,9 @@ extension Date {
         if let sunday = nextSunday {
             let nextNextSunday = Calendar.current.nextDate(after: sunday, matching: DateComponents(weekday: 1), matchingPolicy: .nextTime)
             
-            if let nextSunday = nextNextSunday, self.isBefore(nextSunday) && !self.isAfter(sunday) {
+            if self.isBefore(sunday) {
+                return relDate
+            } else if let nextSunday = nextNextSunday, self.isBefore(nextSunday) && self.isAfter(sunday) {
                 return "Volgende \(relDate.lowercased())"
             } else {
                 dateFormatter.dateFormat = "d MMM yyyy"
