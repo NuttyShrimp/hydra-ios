@@ -16,6 +16,7 @@ struct GlobalConstants {
     public static let LIBRARY = "https://widgets.lib.ugent.be";
     
     public static let TAB = "https://tab.zeus.gent/api/v1";
+    public static let TAP = "https://tap.zeus.gent";
     public static let KELDER = "https://kelder.zeus.ugent.be"
     public static let MATTERMORE = "https://mattermore.zeus.gent"
     
@@ -34,6 +35,7 @@ struct GlobalConstants {
             static let enabled = "zeusModeEnabled"
             static let onboarding = "zeusOnboarding"
             static let tab = "zeusTabApiKey"
+            static let tap = "zeusTapApiKey"
             static let username = "zeusUsername"
             static let door = "zeusDoorApiKey"
         }

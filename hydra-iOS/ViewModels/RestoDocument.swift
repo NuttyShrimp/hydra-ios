@@ -149,9 +149,9 @@ class RestoDocument: ObservableObject {
             selectedRestoMenus = .success(menus)
         } catch {
             if let hydraError = error as? HydraError {
-                restoLocations = .failure(hydraError)
+                selectedRestoMenus = .failure(hydraError)
             } else {
-                restoLocations = .failure(
+                selectedRestoMenus = .failure(
                     HydraError.runtimeError("Failed to load restaurant locations", error))
             }
         }

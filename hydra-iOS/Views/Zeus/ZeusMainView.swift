@@ -10,7 +10,8 @@ import SwiftUI
 
 struct ZeusMainView: View {
     @ObservedObject var zeus: ZeusDocument
-
+    @StateObject var order = ZeusOrderDocument()
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -41,6 +42,17 @@ struct ZeusMainView: View {
 
     var actionBtns: some View {
         HStack(spacing: 30) {
+            NavigationLink(
+                destination: {
+                    ZeusOrderView(order: order)
+                        .navigationTitle("Tap order")
+                },
+                label: {
+                    Label("", systemImage: "basket")
+                        .labelStyle(.iconOnly)
+                }
+            )
+            .buttonStyle(.borderedProminent)
             if zeus.hasDoorControl() {
                 Button {
                     Task {
@@ -50,7 +62,7 @@ struct ZeusMainView: View {
                     Label("", systemImage: "lock.open")
                         .labelStyle(.iconOnly)
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(.borderedProminent)
 
                 Button {
                     Task {
@@ -60,7 +72,7 @@ struct ZeusMainView: View {
                     Label("", systemImage: "lock")
                         .labelStyle(.iconOnly)
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(.borderedProminent)
             }
             NavigationLink(
                 destination: {
@@ -72,8 +84,7 @@ struct ZeusMainView: View {
                         .labelStyle(.iconOnly)
                 }
             )
-            .buttonStyle(.bordered)
-            .foregroundStyle(Color(.accent))
+            .buttonStyle(.borderedProminent)
 
         }
     }
