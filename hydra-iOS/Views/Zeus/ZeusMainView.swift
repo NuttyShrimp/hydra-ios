@@ -11,6 +11,9 @@ import SwiftUI
 struct ZeusMainView: View {
     @ObservedObject var zeus: ZeusDocument
     @StateObject var order = ZeusOrderDocument()
+    @State private var isShowingOpenConfirmation = false;
+    @State private var isShowingCloseConfirmation = false;
+    @State private var isShowingDoorActions = false;
     
     var body: some View {
         NavigationStack {
@@ -55,24 +58,27 @@ struct ZeusMainView: View {
             .buttonStyle(.borderedProminent)
             if zeus.hasDoorControl() {
                 Button {
-                    Task {
-                        await zeus.controlDoor(.open)
-                    }
+                    isShowingDoorActions = true
                 } label: {
-                    Label("", systemImage: "lock.open")
+                    Label("", systemImage: "door.left.hand.open")
                         .labelStyle(.iconOnly)
                 }
                 .buttonStyle(.borderedProminent)
-
-                Button {
-                    Task {
-                        await zeus.controlDoor(.close)
+                .confirmationDialog("What action do you want to perform?", isPresented: $isShowingDoorActions) {
+                    Button("Open door") {
+                        Task {
+                            await zeus.controlDoor(.open)
+                        }
                     }
-                } label: {
-                    Label("", systemImage: "lock")
-                        .labelStyle(.iconOnly)
+                    Button("Close door") {
+                        Task {
+                            await zeus.controlDoor(.close)
+                        }
+                    }
+                    Button("Annuleer", role: .cancel) {
+                        isShowingDoorActions = false
+                    }
                 }
-                .buttonStyle(.borderedProminent)
             }
             NavigationLink(
                 destination: {
