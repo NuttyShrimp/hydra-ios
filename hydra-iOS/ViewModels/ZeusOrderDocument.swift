@@ -11,7 +11,7 @@ import OrderedCollections
 class ZeusOrderDocument: ObservableObject {
     @Published var products: HydraDataFetch<[TapProduct]> = .idle
     @Published var tapUser: HydraDataFetch<TapUser> = .idle
-    var cart: [TapProduct: Int] = [:]
+    @Published var cart: [TapProduct: Int] = [:]
     var orderedCart: OrderedDictionary<TapProduct, Int> {
         return OrderedDictionary(uniqueKeys: cart.keys, values: cart.values)
     }
@@ -58,6 +58,7 @@ class ZeusOrderDocument: ObservableObject {
     
     func addDagschotelToCart() {
         guard case .success(let tapUser) = tapUser else {
+            print("Tap user not loaded successfully")
             return
         }
         guard let productId = tapUser.dagschotelId else {
@@ -71,6 +72,7 @@ class ZeusOrderDocument: ObservableObject {
             return
         }
         guard let product = products.first(where: { $0.id == productId }) else {
+            print("Product with id \(productId) not found in available products")
             return
         }
         if cart.keys.contains(product) {
