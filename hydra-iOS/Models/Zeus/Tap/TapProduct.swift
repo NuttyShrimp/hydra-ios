@@ -38,6 +38,10 @@ struct TapProduct: Identifiable, Decodable, Hashable {
         return URL(string: GlobalConstants.TAP + "/system/products/avatars/\(first)/\(second)/\(third)/medium/\(avatarFileName)")
                 
     }
+    
+    var price: String {
+        return String(format:"Ƶ%.2f", Double(self.priceCents) / 100.0)
+    }
 }
 
 enum TapProductCategory: String, CaseIterable, Decodable {
