@@ -13,6 +13,7 @@ struct ZeusConfig {
     @MainActor static var sharedInstance = ZeusConfig()
     
     private init() {
+#if DEBUG
         if let plistURL = Bundle.main.url(forResource: "APIKeys", withExtension: "plist") {
             do {
                 let plistData = try Data(contentsOf: plistURL)
@@ -34,6 +35,7 @@ struct ZeusConfig {
                 print(error.localizedDescription)
             }
         }
+#endif
     }
     
     var username = UserDefaults.standard.string(
