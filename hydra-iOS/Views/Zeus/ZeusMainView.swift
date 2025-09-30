@@ -139,8 +139,8 @@ struct ZeusTransactionView: View {
     var transaction: TabTransaction
     var hideIcon = false
     @ObservedObject var zeus: ZeusDocument
-    @AppStorage(GlobalConstants.StorageKeys.Zeus.username) var username = ""
-
+    @State var username = ZeusConfig.sharedInstance.username ?? ""
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 16)
@@ -151,7 +151,7 @@ struct ZeusTransactionView: View {
                 }
                 VStack {
                     Text(
-                        "Ƶ\(transaction.amountDecimal()) \(transaction.creditor == username ? "from" : "to") \(transaction.displayOtherParty(from: username))"
+                        "Ƶ\(transaction.amountDecimal()) \(transaction.debtor == username ? "to" : "from") \(transaction.displayOtherParty(from: username))"
                     )
                     .bold()
                     .align(.left)
