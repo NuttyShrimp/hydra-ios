@@ -66,7 +66,6 @@ enum HydraDataFetch<T>: Equatable {
             return "Loading"
         case .idle:
             return "Idle"
-            return "Success"
         case .success(let data):
             if let data = data as? String {
                 return data
