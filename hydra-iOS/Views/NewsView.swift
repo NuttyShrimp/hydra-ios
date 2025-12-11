@@ -49,7 +49,9 @@ struct NewsView: View {
                 Image("HydraLogo")
                     .resizable()
                     .scaledToFit()
-                    .padding(.bottom, 10)
+                    .frame(height: 30) // smaller height so it fits better in the navbar
+                    .frame(maxWidth: 120) // prevent it from stretching too wide
+                    .padding(.vertical, 4) // reduce vertical padding
             }
         }
     }
