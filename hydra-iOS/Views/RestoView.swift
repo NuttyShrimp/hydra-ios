@@ -40,6 +40,18 @@ struct RestoView: View {
                     otherMenu
                 }
             }
+            .navigationDestination(for: RestoNavigationOptions.self) { option in
+                ZStack {
+                    switch option {
+                    case .extraMenus:
+                        OtherFoodMenuView(resto: restos)
+                    case .locations:
+                        RestoLocations(restos: restos)
+                    }
+                }
+                .navigationTitle(option.toString().capitalized)
+                .navigationBarTitleDisplayMode(.inline)
+            }
         }
         .navigationTitle("Resto's")
         .navigationBarTitleDisplayMode(.inline)
@@ -88,17 +100,5 @@ struct RestoView: View {
                 }
             }, label: { Image(systemName: "ellipsis") }
         )
-        .navigationDestination(for: RestoNavigationOptions.self) { option in
-            ZStack {
-                switch option {
-                case .extraMenus:
-                    OtherFoodMenuView(resto: restos)
-                case .locations:
-                    RestoLocations(restos: restos)
-                }
-            }
-            .navigationTitle(option.toString().capitalized)
-            .navigationBarTitleDisplayMode(.inline)
-        }
     }
 }
